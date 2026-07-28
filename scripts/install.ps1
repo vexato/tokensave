@@ -2,7 +2,8 @@
 param(
     [string]$Version = "latest",
     [string]$InstallDir = $(if ($env:TOKENSAVE_INSTALL_DIR) { $env:TOKENSAVE_INSTALL_DIR } else { Join-Path $env:LOCALAPPDATA "Programs\TokenSave" }),
-    [switch]$SkipCodexSkill,
+    [Alias("SkipCodexSkill")]
+    [switch]$SkipSkill,
     [switch]$WhatIf
 )
 
@@ -68,42 +69,49 @@ $asset = @($release.assets | Where-Object { $_.name -eq $assetName }) | Select-O
 if (-not $asset) {
     throw "Release $($release.tag_name) does not contain $assetName."
 }
+$checksumsAsset = @($release.assets | Where-Object { $_.name -eq "checksums.txt" }) | Select-Object -First 1
+if (-not $checksumsAsset) {
+    throw "Release $($release.tag_name) does not contain checksums.txt."
+}
 
 if ($WhatIf) {
     Write-Step "Would fetch" "$($release.tag_name) ($Platform)"
+    Write-Step "Would verify" "SHA-256 for $assetName"
     Write-Step "Would install" (Join-Path $InstallDir "tokensave.exe")
-    if (-not $SkipCodexSkill) { Write-Step "Would add" "Codex Skill: tokensave" }
+    if (-not $SkipSkill) { Write-Step "Would add" "Codex Skill: $HOME\.agents\skills\tokensave" }
     exit 0
 }
 
 $tempDir = Join-Path ([System.IO.Path]::GetTempPath()) ("tokensave-" + [guid]::NewGuid())
 $archive = Join-Path $tempDir $assetName
+$checksumsPath = Join-Path $tempDir "checksums.txt"
 try {
     New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
     New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
     Write-Step "Download" "$($release.tag_name) ($Platform)"
     Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $archive
+    Invoke-WebRequest -Uri $checksumsAsset.browser_download_url -OutFile $checksumsPath
+    $escapedAssetName = [regex]::Escape($assetName)
+    $checksumLine = @(Get-Content -LiteralPath $checksumsPath | Where-Object { $_ -match "^\s*([a-fA-F0-9]{64})\s+\*?$escapedAssetName\s*$" })
+    if ($checksumLine.Count -ne 1) { throw "checksums.txt does not contain exactly one SHA-256 entry for $assetName." }
+    $checksumMatch = [regex]::Match($checksumLine[0], "^\s*([a-fA-F0-9]{64})\s+\*?$escapedAssetName\s*$")
+    $expectedHash = $checksumMatch.Groups[1].Value.ToLowerInvariant()
+    $actualHash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($actualHash -ne $expectedHash) { throw "SHA-256 verification failed for $assetName." }
+    Write-Step "Verified" "SHA-256 for $assetName"
     Write-Step "Extract" $assetName
     Expand-Archive -Path $archive -DestinationPath $tempDir -Force
     $binary = Get-ChildItem -Path $tempDir -Filter "tokensave.exe" -Recurse | Select-Object -First 1
     if (-not $binary) { throw "Downloaded archive does not contain tokensave.exe." }
     Copy-Item -LiteralPath $binary.FullName -Destination (Join-Path $InstallDir "tokensave.exe") -Force
 
-    if (-not $SkipCodexSkill) {
-        $codexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $HOME ".codex" }
+    if (-not $SkipSkill) {
         $skill = Get-ChildItem -Path $tempDir -Filter "SKILL.md" -Recurse | Where-Object { $_.FullName.Replace('/', '\') -like '*\skills\tokensave\SKILL.md' } | Select-Object -First 1
-        if ($skill) {
-            $skillDir = Join-Path $codexHome "skills\tokensave"
-            New-Item -ItemType Directory -Force -Path $skillDir | Out-Null
-            Copy-Item -LiteralPath $skill.FullName -Destination (Join-Path $skillDir "SKILL.md") -Force
-            Write-Step "Codex Skill" $skillDir
-        } else {
-            $skillDir = Join-Path $codexHome "skills\tokensave"
-            New-Item -ItemType Directory -Force -Path $skillDir | Out-Null
-            $skillUrl = "https://raw.githubusercontent.com/$Repository/main/skills/tokensave/SKILL.md"
-            Invoke-WebRequest -Uri $skillUrl -OutFile (Join-Path $skillDir "SKILL.md")
-            Write-Step "Codex Skill" "$skillDir (from main)"
-        }
+        if (-not $skill) { throw "Downloaded archive does not contain skills/tokensave/SKILL.md." }
+        $skillDir = Join-Path $HOME ".agents\skills\tokensave"
+        New-Item -ItemType Directory -Force -Path $skillDir | Out-Null
+        Copy-Item -LiteralPath $skill.FullName -Destination (Join-Path $skillDir "SKILL.md") -Force
+        Write-Step "Codex Skill" $skillDir
     }
 } finally {
     Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue
@@ -116,3 +124,7 @@ Write-Host ""
 Write-Host "  [OK] TokenSave $($release.tag_name) is ready." -ForegroundColor Green
 Write-Host "    Try: " -NoNewline -ForegroundColor Gray
 Write-Host "tokensave git status" -ForegroundColor White
+if (-not $SkipSkill) {
+    Write-Host "    Verify skills: " -NoNewline -ForegroundColor Gray
+    Write-Host "codex /skills" -ForegroundColor White
+}

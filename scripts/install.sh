@@ -4,7 +4,8 @@ set -eu
 repository="vexato/tokensave"
 version="${TOKENSAVE_VERSION:-latest}"
 install_dir="${TOKENSAVE_INSTALL_DIR:-$HOME/.local/bin}"
-codex_home="${CODEX_HOME:-$HOME/.codex}"
+skill_dir="$HOME/.agents/skills/tokensave"
+install_skill="${TOKENSAVE_INSTALL_SKILL:-1}"
 
 os="$(uname -s)"
 arch="$(uname -m)"
@@ -22,8 +23,10 @@ esac
 asset="tokensave_${platform_os}_${platform_arch}.tar.gz"
 if [ "$version" = "latest" ]; then
   download_url="https://github.com/$repository/releases/latest/download/$asset"
+  checksums_url="https://github.com/$repository/releases/latest/download/checksums.txt"
 else
   download_url="https://github.com/$repository/releases/download/$version/$asset"
+  checksums_url="https://github.com/$repository/releases/download/$version/checksums.txt"
 fi
 
 tmpdir="$(mktemp -d)"
@@ -33,18 +36,55 @@ trap cleanup EXIT INT TERM
 command -v curl >/dev/null 2>&1 || { echo "curl is required." >&2; exit 1; }
 command -v tar >/dev/null 2>&1 || { echo "tar is required." >&2; exit 1; }
 
+case "$install_skill" in
+  1|true|TRUE|yes|YES) install_skill=true ;;
+  0|false|FALSE|no|NO) install_skill=false ;;
+  *) echo "TOKENSAVE_INSTALL_SKILL must be 0 or 1." >&2; exit 1 ;;
+esac
+
 curl --fail --location --silent --show-error "$download_url" -o "$tmpdir/$asset"
+curl --fail --location --silent --show-error "$checksums_url" -o "$tmpdir/checksums.txt"
+
+expected_checksum="$(awk -v asset="$asset" '$2 == asset { print $1; exit }' "$tmpdir/checksums.txt")"
+[ -n "$expected_checksum" ] || { echo "checksums.txt does not contain an entry for $asset." >&2; exit 1; }
+[ "${#expected_checksum}" -eq 64 ] || {
+  echo "checksums.txt contains an invalid SHA-256 entry for $asset." >&2
+  exit 1
+}
+case "$expected_checksum" in
+  *[!0123456789abcdefABCDEF]*)
+    echo "checksums.txt contains an invalid SHA-256 entry for $asset." >&2
+    exit 1
+    ;;
+esac
+
+if command -v sha256sum >/dev/null 2>&1; then
+  actual_checksum="$(sha256sum "$tmpdir/$asset" | awk '{print $1}')"
+elif command -v shasum >/dev/null 2>&1; then
+  actual_checksum="$(shasum -a 256 "$tmpdir/$asset" | awk '{print $1}')"
+else
+  echo "sha256sum or shasum is required to verify the download." >&2
+  exit 1
+fi
+
+[ "$actual_checksum" = "$expected_checksum" ] || {
+  echo "SHA-256 verification failed for $asset." >&2
+  exit 1
+}
+printf 'Verified SHA-256 for %s\n' "$asset"
+
 tar -xzf "$tmpdir/$asset" -C "$tmpdir"
 mkdir -p "$install_dir"
 install -m 0755 "$tmpdir/tokensave" "$install_dir/tokensave"
-if [ -f "$tmpdir/skills/tokensave/SKILL.md" ]; then
-  mkdir -p "$codex_home/skills/tokensave"
-  cp "$tmpdir/skills/tokensave/SKILL.md" "$codex_home/skills/tokensave/SKILL.md"
-  printf 'Codex Skill installed in %s\n' "$codex_home/skills/tokensave"
-else
-  mkdir -p "$codex_home/skills/tokensave"
-  curl --fail --location --silent --show-error "https://raw.githubusercontent.com/$repository/main/skills/tokensave/SKILL.md" -o "$codex_home/skills/tokensave/SKILL.md"
-  printf 'Codex Skill installed in %s (from main)\n' "$codex_home/skills/tokensave"
+if [ "$install_skill" = true ]; then
+  [ -f "$tmpdir/skills/tokensave/SKILL.md" ] || {
+    echo "Downloaded archive does not contain skills/tokensave/SKILL.md." >&2
+    exit 1
+  }
+  mkdir -p "$skill_dir"
+  cp "$tmpdir/skills/tokensave/SKILL.md" "$skill_dir/SKILL.md"
+  printf 'Codex Skill installed in %s\n' "$skill_dir"
+  printf 'Verify installed skills: codex /skills\n'
 fi
 
 printf 'TokenSave installed in %s\n' "$install_dir"
