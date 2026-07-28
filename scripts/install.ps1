@@ -10,6 +10,8 @@ param(
 $ErrorActionPreference = "Stop"
 $Repository = "vexato/tokensave"
 $Platform = "windows_amd64"
+$SkillDir = if ($env:TOKENSAVE_SKILL_DIR) { $env:TOKENSAVE_SKILL_DIR } else { Join-Path $HOME ".agents\skills\tokensave" }
+$LegacySkillDir = Join-Path $HOME ".codex\skills\tokensave"
 
 function Write-Step([string]$Label, [string]$Message) {
     Write-Host ("  {0,-10}" -f $Label) -NoNewline -ForegroundColor DarkCyan
@@ -78,7 +80,7 @@ if ($WhatIf) {
     Write-Step "Would fetch" "$($release.tag_name) ($Platform)"
     Write-Step "Would verify" "SHA-256 for $assetName"
     Write-Step "Would install" (Join-Path $InstallDir "tokensave.exe")
-    if (-not $SkipSkill) { Write-Step "Would add" "Codex Skill: $HOME\.agents\skills\tokensave" }
+    if (-not $SkipSkill) { Write-Step "Would add" "Codex Skill: $SkillDir" }
     exit 0
 }
 
@@ -106,12 +108,14 @@ try {
     Copy-Item -LiteralPath $binary.FullName -Destination (Join-Path $InstallDir "tokensave.exe") -Force
 
     if (-not $SkipSkill) {
-        $skill = Get-ChildItem -Path $tempDir -Filter "SKILL.md" -Recurse | Where-Object { $_.FullName.Replace('/', '\') -like '*\skills\tokensave\SKILL.md' } | Select-Object -First 1
-        if (-not $skill) { throw "Downloaded archive does not contain skills/tokensave/SKILL.md." }
-        $skillDir = Join-Path $HOME ".agents\skills\tokensave"
-        New-Item -ItemType Directory -Force -Path $skillDir | Out-Null
-        Copy-Item -LiteralPath $skill.FullName -Destination (Join-Path $skillDir "SKILL.md") -Force
-        Write-Step "Codex Skill" $skillDir
+        $skillSource = Join-Path $tempDir "skills\tokensave"
+        if (-not (Test-Path -LiteralPath $skillSource -PathType Container)) { throw "Downloaded archive does not contain skills/tokensave/." }
+        if ((Test-Path -LiteralPath $LegacySkillDir -PathType Container) -and ($LegacySkillDir -ne $SkillDir)) {
+            Write-Warning "Legacy Codex Skill found at $LegacySkillDir. It was not removed; migrate or remove it manually after verifying $SkillDir."
+        }
+        New-Item -ItemType Directory -Force -Path $SkillDir | Out-Null
+        Get-ChildItem -Force -LiteralPath $skillSource | Copy-Item -Destination $SkillDir -Recurse -Force
+        Write-Step "Codex Skill" $SkillDir
     }
 } finally {
     Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue

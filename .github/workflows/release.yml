@@ -9,7 +9,22 @@ permissions:
   contents: write
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: test -z "$(gofmt -l $(git ls-files '*.go'))"
+      - run: go vet ./...
+      - run: go test ./...
+      - run: go test -race ./...
+      - run: go build ./cmd/tokensave
+
   build:
+    needs: verify
     name: ${{ matrix.goos }}-${{ matrix.goarch }}
     runs-on: ubuntu-latest
     strategy:
@@ -35,8 +50,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.22.x"
-      - run: go test ./...
+          go-version-file: go.mod
+          cache: true
       - name: Build archive
         shell: bash
         env:
@@ -51,17 +66,24 @@ jobs:
           CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -buildvcs=false -o "$binary" ./cmd/tokensave
           mkdir package
           mv "$binary" package/
-          mkdir -p package/skills/tokensave
-          cp skills/tokensave/SKILL.md package/skills/tokensave/SKILL.md
+          mkdir -p package/skills
+          cp -R skills/tokensave package/skills/tokensave
+          cp LICENSE README.md package/
+          test -f package/"$binary"
+          test -f package/LICENSE
+          test -f package/README.md
+          test -f package/skills/tokensave/SKILL.md
           if [ "$ARCHIVE" = zip ]; then
-            (cd package && zip "../$name.zip" tokensave.exe skills/tokensave/SKILL.md)
+            (cd package && zip -r "../$name.zip" tokensave.exe LICENSE README.md skills)
           else
-            tar -czf "$name.tar.gz" -C package tokensave skills/tokensave/SKILL.md
+            tar -czf "$name.tar.gz" -C package tokensave LICENSE README.md skills
           fi
+          test -s "$name.$ARCHIVE"
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.goos }}-${{ matrix.goarch }}
           path: tokensave_*
+          if-no-files-found: error
 
   release:
     needs: build
@@ -73,7 +95,12 @@ jobs:
           merge-multiple: true
       - name: Create checksums
         shell: bash
-        run: cd dist && sha256sum tokensave_* > checksums.txt
+        run: |
+          set -eu
+          cd dist
+          test "$(find . -maxdepth 1 -type f -name 'tokensave_*' | wc -l)" -eq 5
+          sha256sum tokensave_* > checksums.txt
+          test -s checksums.txt
       - uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true

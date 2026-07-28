@@ -1,3 +1,7 @@
 /bin/
 /.tokensave/
 .agents
+.DS_Store
+Thumbs.db
+coverage.out
+docs/benchmarks.md

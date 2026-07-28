@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">TokenSave</title>
+  <desc id="desc">Keep terminal noise out of your coding agent's context. Local, private, agent-friendly.</desc>
+  <rect width="1280" height="640" fill="#0f172a"/>
+  <rect x="80" y="90" width="1120" height="460" rx="28" fill="#172554" stroke="#38bdf8" stroke-width="3"/>
+  <text x="150" y="245" fill="#f8fafc" font-family="Arial, sans-serif" font-size="96" font-weight="700">TokenSave</text>
+  <text x="150" y="345" fill="#bae6fd" font-family="Arial, sans-serif" font-size="42">Keep terminal noise out of your coding agent's context.</text>
+  <text x="150" y="445" fill="#94a3b8" font-family="Arial, sans-serif" font-size="34">Local · Private · Agent-friendly</text>
+</svg>

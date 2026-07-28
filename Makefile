@@ -1,4 +1,4 @@
-.PHONY: build test lint install
+.PHONY: build test lint install benchmark
 
 build:
 	go build -o bin/tokensave ./cmd/tokensave
@@ -11,3 +11,6 @@ lint:
 
 install:
 	go install ./cmd/tokensave
+
+benchmark:
+	sh scripts/benchmark.sh

@@ -1,0 +1,53 @@
+name: Bug report
+description: Report unexpected TokenSave behavior.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not publish secrets, credentials, complete private logs, or proprietary source code. Use sanitized summaries or JSON only.
+  - type: input
+    id: version
+    attributes: {label: TokenSave version, placeholder: v0.1.2}
+    validations: {required: true}
+  - type: input
+    id: platform
+    attributes: {label: Operating system and architecture, placeholder: "Ubuntu 24.04, amd64"}
+    validations: {required: true}
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installation method
+      options: [Release installer, Built from source, Other]
+    validations: {required: true}
+  - type: textarea
+    id: command
+    attributes: {label: Wrapped command, description: Remove sensitive arguments.}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Expected behavior}
+    validations: {required: true}
+  - type: textarea
+    id: actual
+    attributes: {label: Actual behavior}
+    validations: {required: true}
+  - type: input
+    id: child-exit
+    attributes: {label: Original command exit code, placeholder: "1"}
+    validations: {required: true}
+  - type: input
+    id: tokensave-exit
+    attributes: {label: TokenSave exit code, placeholder: "1"}
+    validations: {required: true}
+  - type: input
+    id: parser
+    attributes: {label: Selected parser, placeholder: generic}
+  - type: textarea
+    id: output
+    attributes: {label: Sanitized summary or JSON output, description: Never include complete private logs or credentials.}
+  - type: textarea
+    id: reproduce
+    attributes: {label: Reproduction steps}
+    validations: {required: true}

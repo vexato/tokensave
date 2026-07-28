@@ -4,7 +4,8 @@ set -eu
 repository="vexato/tokensave"
 version="${TOKENSAVE_VERSION:-latest}"
 install_dir="${TOKENSAVE_INSTALL_DIR:-$HOME/.local/bin}"
-skill_dir="$HOME/.agents/skills/tokensave"
+skill_dir="${TOKENSAVE_SKILL_DIR:-$HOME/.agents/skills/tokensave}"
+legacy_skill_dir="$HOME/.codex/skills/tokensave"
 install_skill="${TOKENSAVE_INSTALL_SKILL:-1}"
 
 os="$(uname -s)"
@@ -77,12 +78,15 @@ tar -xzf "$tmpdir/$asset" -C "$tmpdir"
 mkdir -p "$install_dir"
 install -m 0755 "$tmpdir/tokensave" "$install_dir/tokensave"
 if [ "$install_skill" = true ]; then
-  [ -f "$tmpdir/skills/tokensave/SKILL.md" ] || {
-    echo "Downloaded archive does not contain skills/tokensave/SKILL.md." >&2
+  [ -d "$tmpdir/skills/tokensave" ] || {
+    echo "Downloaded archive does not contain skills/tokensave/." >&2
     exit 1
   }
+  if [ -d "$legacy_skill_dir" ] && [ "$legacy_skill_dir" != "$skill_dir" ]; then
+    printf 'Legacy Codex Skill found at %s. It was not removed; migrate or remove it manually after verifying %s.\n' "$legacy_skill_dir" "$skill_dir" >&2
+  fi
   mkdir -p "$skill_dir"
-  cp "$tmpdir/skills/tokensave/SKILL.md" "$skill_dir/SKILL.md"
+  cp -R "$tmpdir/skills/tokensave/." "$skill_dir/"
   printf 'Codex Skill installed in %s\n' "$skill_dir"
   printf 'Verify installed skills: codex /skills\n'
 fi

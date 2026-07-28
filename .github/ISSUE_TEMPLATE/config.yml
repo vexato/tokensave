@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability report
+    url: https://github.com/vexato/tokensave/security/advisories/new
+    about: Report undisclosed vulnerabilities privately. Do not include them in public issues.
+  - name: Documentation
+    url: https://github.com/vexato/tokensave#readme
+    about: Read installation, usage, configuration, and privacy documentation.

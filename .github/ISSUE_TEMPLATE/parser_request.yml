@@ -1,0 +1,38 @@
+name: Parser request
+description: Request support for another command-line tool.
+title: "parser: "
+labels: [parser, enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Provide sanitized output only. Fixtures and tests are especially welcome.
+  - type: input
+    id: tool
+    attributes: {label: Tool name}
+    validations: {required: true}
+  - type: input
+    id: url
+    attributes: {label: Official tool URL}
+    validations: {required: true}
+  - type: textarea
+    id: command
+    attributes: {label: Sample command}
+    validations: {required: true}
+  - type: textarea
+    id: output
+    attributes: {label: Representative sanitized output, description: Do not include secrets, private logs, or proprietary source.}
+    validations: {required: true}
+  - type: textarea
+    id: fields
+    attributes: {label: Expected extracted fields}
+    validations: {required: true}
+  - type: textarea
+    id: failures
+    attributes: {label: Expected failure detection}
+    validations: {required: true}
+  - type: dropdown
+    id: machine-readable
+    attributes:
+      label: Does the tool have a stable machine-readable format?
+      options: [Yes, No, Unsure]
+    validations: {required: true}
