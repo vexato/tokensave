@@ -147,14 +147,15 @@ For a repository-specific Skill, copy it to `.agents/skills/tokensave` in that r
 
 ## Benchmarks
 
-Run a reproducible local comparison with:
+Run the deterministic, offline correctness and performance benchmark with:
 
 ```sh
 make benchmark
-# or: scripts/benchmark.sh --output docs/benchmarks.md
 ```
 
-The script compares raw output with TokenSave's displayed summary for deterministic successful and failing commands. Results depend on the command, parser, configuration, and TokenSave version; the project does not publish invented benchmark numbers.
+The suite generates both [the Markdown benchmark report](docs/benchmarks.md) and its machine-readable JSON counterpart from the same measured data. It checks exit-code preservation, parser detection, diagnostic retention, secret redaction, output limits, displayed line and byte reduction, and runtime overhead across deterministic generated output, repository fixtures, and a temporary Git repository.
+
+Results depend on the command, parser, configuration, operating system, filesystem, and TokenSave version. They do not represent every command or every coding-agent workload; see the full report for the measured results and limitations.
 
 ## Current limitations
 

@@ -1,0 +1,1482 @@
+{
+  "all_mandatory_correctness_passed": false,
+  "metadata": {
+    "architecture": "AMD64",
+    "benchmark_date": "2026-07-28",
+    "configuration": "default max_lines=80, max_chars=12000, max_failures=5; line-limit override max_lines=12, max_chars=12000, max_failures=20; character-limit override max_lines=80, max_chars=240, max_failures=20; redaction enabled",
+    "go_version": "go version go1.26.5 windows/amd64",
+    "iterations": 20,
+    "operating_system": "Windows 11",
+    "storage_location_type": "isolated automatically removed temporary directory on the local filesystem",
+    "timer": "Python time.perf_counter_ns",
+    "tokensave_commit": "ed892f8178665867af865d0bd3eda7287700ab82",
+    "tokensave_version": "development build (no embedded version metadata)",
+    "warmup_iterations": 3
+  },
+  "performance": [
+    {
+      "absolute_overhead_ms": 26.531,
+      "exit_codes_preserved": true,
+      "measured_iterations": 20,
+      "p95_overhead_ms": 31.545,
+      "paired_overhead_samples_ms": [
+        25.7708,
+        26.6336,
+        28.1841,
+        26.5589,
+        34.9583,
+        25.7908,
+        27.2846,
+        27.7067,
+        27.805,
+        28.2571,
+        28.703,
+        31.545,
+        28.8634,
+        26.0582,
+        24.0493,
+        25.0673,
+        25.7527,
+        26.2092,
+        24.4039,
+        25.0667
+      ],
+      "raw_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_median_ms": 9.81645,
+      "raw_samples_ms": [
+        9.7724,
+        9.5507,
+        9.4779,
+        10.4669,
+        10.3284,
+        10.3918,
+        9.226,
+        11.2745,
+        11.3241,
+        10.0576,
+        10.509,
+        10.0246,
+        10.4222,
+        9.5758,
+        9.2848,
+        9.5153,
+        9.0541,
+        9.1697,
+        8.8017,
+        9.8605
+      ],
+      "relative_overhead_percent": 270.270821,
+      "scenario": "Generic success",
+      "scenario_id": "generic-success",
+      "stored_log_bytes": 16800,
+      "timer": "Python time.perf_counter_ns",
+      "tokensave_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "tokensave_median_ms": 36.34745,
+      "tokensave_samples_ms": [
+        35.5432,
+        36.1843,
+        37.662,
+        37.0258,
+        45.2867,
+        36.1826,
+        36.5106,
+        38.9812,
+        39.1291,
+        38.3147,
+        39.212,
+        41.5696,
+        39.2856,
+        35.634,
+        33.3341,
+        34.5826,
+        34.8068,
+        35.3789,
+        33.2056,
+        34.9272
+      ],
+      "warmup_iterations": 3
+    },
+    {
+      "absolute_overhead_ms": 16.0228,
+      "exit_codes_preserved": true,
+      "measured_iterations": 20,
+      "p95_overhead_ms": 17.5817,
+      "paired_overhead_samples_ms": [
+        17.4388,
+        15.4732,
+        16.1419,
+        15.3148,
+        17.5324,
+        17.5817,
+        15.2379,
+        15.1875,
+        16.7127,
+        18.4888,
+        16.3398,
+        17.573,
+        15.4426,
+        15.758,
+        16.4124,
+        16.2088,
+        15.668,
+        15.5428,
+        15.2739,
+        15.5189
+      ],
+      "raw_exit_codes": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "raw_median_ms": 9.37805,
+      "raw_samples_ms": [
+        9.4218,
+        9.437,
+        8.7071,
+        9.0635,
+        8.9884,
+        9.6563,
+        8.9117,
+        9.2147,
+        9.3212,
+        9.7614,
+        9.6692,
+        9.8486,
+        10.0855,
+        9.6877,
+        9.3343,
+        8.8776,
+        9.688,
+        9.6947,
+        8.6154,
+        9.2099
+      ],
+      "relative_overhead_percent": 170.854282,
+      "scenario": "PHPUnit failure",
+      "scenario_id": "phpunit-failure",
+      "stored_log_bytes": 169,
+      "timer": "Python time.perf_counter_ns",
+      "tokensave_exit_codes": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "tokensave_median_ms": 25.40085,
+      "tokensave_samples_ms": [
+        26.8606,
+        24.9102,
+        24.849,
+        24.3783,
+        26.5208,
+        27.238,
+        24.1496,
+        24.4022,
+        26.0339,
+        28.2502,
+        26.009,
+        27.4216,
+        25.5281,
+        25.4457,
+        25.7467,
+        25.0864,
+        25.356,
+        25.2375,
+        23.8893,
+        24.7288
+      ],
+      "warmup_iterations": 3
+    },
+    {
+      "absolute_overhead_ms": 13.74035,
+      "exit_codes_preserved": true,
+      "measured_iterations": 20,
+      "p95_overhead_ms": 17.9978,
+      "paired_overhead_samples_ms": [
+        14.8657,
+        15.5366,
+        13.1934,
+        15.4135,
+        10.5984,
+        14.259,
+        13.3604,
+        14.9601,
+        15.7551,
+        12.9087,
+        14.7029,
+        15.4201,
+        17.9978,
+        19.296,
+        15.2347,
+        8.1654,
+        11.1372,
+        12.3208,
+        15.7484,
+        17.6334
+      ],
+      "raw_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "raw_median_ms": 40.38805,
+      "raw_samples_ms": [
+        37.9799,
+        38.3967,
+        39.4525,
+        37.4126,
+        42.355,
+        43.8308,
+        41.1732,
+        38.4975,
+        38.5684,
+        40.2521,
+        38.1597,
+        38.318,
+        37.5707,
+        40.9761,
+        40.524,
+        46.4379,
+        45.2791,
+        41.2318,
+        41.5768,
+        40.5863
+      ],
+      "relative_overhead_percent": 34.02083,
+      "scenario": "Git status",
+      "scenario_id": "git-status",
+      "stored_log_bytes": 224,
+      "timer": "Python time.perf_counter_ns",
+      "tokensave_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "tokensave_median_ms": 54.1284,
+      "tokensave_samples_ms": [
+        52.8456,
+        53.9333,
+        52.6459,
+        52.8261,
+        52.9534,
+        58.0898,
+        54.5336,
+        53.4576,
+        54.3235,
+        53.1608,
+        52.8626,
+        53.7381,
+        55.5685,
+        60.2721,
+        55.7587,
+        54.6033,
+        56.4163,
+        53.5526,
+        57.3252,
+        58.2197
+      ],
+      "warmup_iterations": 3
+    }
+  ],
+  "scenarios": [
+    {
+      "command": [
+        "benchmark-success",
+        "--emit-large"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "generic",
+            "expected": "generic",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "succeeded",
+            "expected": "succeeded",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 400,
+            "expected": 400,
+            "name": "reported output line count",
+            "passed": true
+          },
+          {
+            "actual": "10 < 400",
+            "expected": "summary lines < raw lines",
+            "name": "line output reduced",
+            "passed": true
+          },
+          {
+            "actual": "201 < 16800",
+            "expected": "summary bytes < raw bytes",
+            "name": "byte output reduced",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": true,
+        "passed": true,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 0,
+      "expected_parser": "generic",
+      "expected_status": "succeeded",
+      "id": "generic-success",
+      "json_exit_code": 0,
+      "name": "Generic success",
+      "parser": "generic",
+      "raw": {
+        "bytes": 16800,
+        "lines": 400
+      },
+      "raw_exit_code": 0,
+      "reduction": {
+        "byte_percent": 98.803571,
+        "line_percent": 97.5
+      },
+      "status": "succeeded",
+      "stored_log_bytes": 16800,
+      "summary": {
+        "bytes": 201,
+        "lines": 10
+      },
+      "tokensave_exit_code": 0
+    },
+    {
+      "command": [
+        "benchmark-failure",
+        "--mode",
+        "fail"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "generic",
+            "expected": "generic",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "failure detected",
+            "passed": true
+          },
+          {
+            "actual": [
+              {
+                "file": "internal/benchmark_failure.go",
+                "index": 1,
+                "line": 73,
+                "message": "fatal: deterministic benchmark failure at internal/benchmark_failure.go:73",
+                "name": "Detected error"
+              }
+            ],
+            "expected": "deterministic benchmark failure",
+            "name": "failure message retained",
+            "passed": true
+          },
+          {
+            "actual": "internal/benchmark_failure.go",
+            "expected": "internal/benchmark_failure.go",
+            "name": "failure file",
+            "passed": true
+          },
+          {
+            "actual": 73,
+            "expected": 73,
+            "name": "failure line",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": true,
+        "passed": true,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 7,
+      "expected_parser": "generic",
+      "expected_status": "failed",
+      "id": "generic-failure",
+      "json_exit_code": 7,
+      "name": "Generic failure",
+      "parser": "generic",
+      "raw": {
+        "bytes": 7095,
+        "lines": 181
+      },
+      "raw_exit_code": 7,
+      "reduction": {
+        "byte_percent": 93.742072,
+        "line_percent": 88.950276
+      },
+      "status": "failed",
+      "stored_log_bytes": 7095,
+      "summary": {
+        "bytes": 444,
+        "lines": 20
+      },
+      "tokensave_exit_code": 7
+    },
+    {
+      "command": [
+        "phpunit",
+        "--colors=never"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "phpunit",
+            "expected": "phpunit",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 4,
+            "expected": 4,
+            "name": "detected tests",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": 2,
+            "name": "reported failed tests",
+            "passed": false
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "detailed failure count",
+            "passed": true
+          },
+          {
+            "actual": "UserServiceTest::testCreatesUser",
+            "expected": "UserServiceTest::testCreatesUser",
+            "name": "failure name",
+            "passed": true
+          },
+          {
+            "actual": "Expected status 201, received 500",
+            "expected": "Expected status 201, received 500",
+            "name": "failure message",
+            "passed": true
+          },
+          {
+            "actual": "tests/Unit/UserServiceTest.php",
+            "expected": "tests/Unit/UserServiceTest.php",
+            "name": "failure file",
+            "passed": true
+          },
+          {
+            "actual": 84,
+            "expected": 84,
+            "name": "failure line",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": false,
+        "passed": false,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 1,
+      "expected_parser": "phpunit",
+      "expected_status": "failed",
+      "id": "phpunit-failure",
+      "json_exit_code": 1,
+      "name": "PHPUnit failure",
+      "parser": "phpunit",
+      "raw": {
+        "bytes": 169,
+        "lines": 7
+      },
+      "raw_exit_code": 1,
+      "reduction": {
+        "byte_percent": -128.402367,
+        "line_percent": -171.428571
+      },
+      "status": "failed",
+      "stored_log_bytes": 169,
+      "summary": {
+        "bytes": 386,
+        "lines": 19
+      },
+      "tokensave_exit_code": 1
+    },
+    {
+      "command": [
+        "pest",
+        "--colors=never"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "pest",
+            "expected": "pest",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 3,
+            "expected": 3,
+            "name": "detected tests",
+            "passed": true
+          },
+          {
+            "actual": null,
+            "expected": 5,
+            "name": "detected assertions",
+            "passed": false
+          },
+          {
+            "actual": null,
+            "expected": 1,
+            "name": "reported failed tests",
+            "passed": false
+          },
+          {
+            "actual": {
+              "failures": [],
+              "last_relevant": []
+            },
+            "expected": "Tests\\\\Feature\\\\InvoiceTest",
+            "name": "failed test name retained",
+            "passed": false
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": false,
+        "passed": false,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 1,
+      "expected_parser": "pest",
+      "expected_status": "failed",
+      "id": "pest-failure",
+      "json_exit_code": 1,
+      "name": "Pest failure",
+      "parser": "pest",
+      "raw": {
+        "bytes": 79,
+        "lines": 3
+      },
+      "raw_exit_code": 1,
+      "reduction": {
+        "byte_percent": -165.822785,
+        "line_percent": -266.666667
+      },
+      "status": "failed",
+      "stored_log_bytes": 79,
+      "summary": {
+        "bytes": 210,
+        "lines": 11
+      },
+      "tokensave_exit_code": 1
+    },
+    {
+      "command": [
+        "npm",
+        "install",
+        "--offline"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "node",
+            "expected": "node",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": {
+              "failures": [],
+              "last_relevant": []
+            },
+            "expected": "ERESOLVE",
+            "name": "npm error code retained",
+            "passed": false
+          },
+          {
+            "actual": {
+              "failures": [],
+              "last_relevant": []
+            },
+            "expected": "unable to resolve dependency tree",
+            "name": "npm diagnostic retained",
+            "passed": false
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": false,
+        "passed": false,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 1,
+      "expected_parser": "node",
+      "expected_status": "failed",
+      "id": "npm-failure",
+      "json_exit_code": 1,
+      "name": "npm failure",
+      "parser": "node",
+      "raw": {
+        "bytes": 66,
+        "lines": 2
+      },
+      "raw_exit_code": 1,
+      "reduction": {
+        "byte_percent": -263.636364,
+        "line_percent": -500.0
+      },
+      "status": "failed",
+      "stored_log_bytes": 66,
+      "summary": {
+        "bytes": 240,
+        "lines": 12
+      },
+      "tokensave_exit_code": 1
+    },
+    {
+      "command": [
+        "composer",
+        "install",
+        "--no-interaction",
+        "--no-progress"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 2,
+            "expected": 2,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 2,
+            "expected": 2,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 2,
+            "expected": 2,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "composer",
+            "expected": "composer",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": {
+              "failures": [],
+              "last_relevant": []
+            },
+            "expected": "could not be resolved to an installable set of packages",
+            "name": "Composer diagnostic retained",
+            "passed": false
+          },
+          {
+            "actual": {
+              "failures": [],
+              "last_relevant": []
+            },
+            "expected": "Problem 1",
+            "name": "Composer problem retained",
+            "passed": false
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": false,
+        "passed": false,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 2,
+      "expected_parser": "composer",
+      "expected_status": "failed",
+      "id": "composer-failure",
+      "json_exit_code": 2,
+      "name": "Composer failure",
+      "parser": "composer",
+      "raw": {
+        "bytes": 140,
+        "lines": 3
+      },
+      "raw_exit_code": 2,
+      "reduction": {
+        "byte_percent": -90.0,
+        "line_percent": -300.0
+      },
+      "status": "failed",
+      "stored_log_bytes": 140,
+      "summary": {
+        "bytes": 266,
+        "lines": 12
+      },
+      "tokensave_exit_code": 2
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v2",
+        "--branch"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "git-status",
+            "expected": "git-status",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "succeeded",
+            "expected": "succeeded",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": "benchmark-main",
+            "expected": "benchmark-main",
+            "name": "branch",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "modified paths",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "untracked paths",
+            "passed": true
+          },
+          {
+            "actual": [
+              "tracked.txt",
+              "untracked.txt"
+            ],
+            "expected": "tracked.txt",
+            "name": "modified path retained",
+            "passed": true
+          },
+          {
+            "actual": [
+              "tracked.txt",
+              "untracked.txt"
+            ],
+            "expected": "untracked.txt",
+            "name": "untracked path retained",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": true,
+        "passed": true,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 0,
+      "expected_parser": "git-status",
+      "expected_status": "succeeded",
+      "id": "git-status",
+      "json_exit_code": 0,
+      "name": "Git status",
+      "parser": "git-status",
+      "raw": {
+        "bytes": 224,
+        "lines": 4
+      },
+      "raw_exit_code": 0,
+      "reduction": {
+        "byte_percent": -43.75,
+        "line_percent": -425.0
+      },
+      "status": "succeeded",
+      "stored_log_bytes": 224,
+      "summary": {
+        "bytes": 322,
+        "lines": 21
+      },
+      "tokensave_exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 0,
+            "expected": 0,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "git-diff",
+            "expected": "git-diff",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "succeeded",
+            "expected": "succeeded",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "modified files",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "insertions",
+            "passed": true
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "name": "deletions",
+            "passed": true
+          },
+          {
+            "actual": [
+              "tracked.txt"
+            ],
+            "expected": "tracked.txt",
+            "name": "modified path retained",
+            "passed": true
+          },
+          {
+            "actual": [
+              "-original benchmark content",
+              "+modified benchmark content"
+            ],
+            "expected": "modified benchmark content",
+            "name": "diff preview retained",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": true,
+        "passed": true,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 0,
+      "expected_parser": "git-diff",
+      "expected_status": "succeeded",
+      "id": "git-diff",
+      "json_exit_code": 0,
+      "name": "Git diff",
+      "parser": "git-diff",
+      "raw": {
+        "bytes": 173,
+        "lines": 7
+      },
+      "raw_exit_code": 0,
+      "reduction": {
+        "byte_percent": -86.705202,
+        "line_percent": -171.428571
+      },
+      "status": "succeeded",
+      "stored_log_bytes": 173,
+      "summary": {
+        "bytes": 323,
+        "lines": 19
+      },
+      "tokensave_exit_code": 0
+    },
+    {
+      "command": [
+        "benchmark-secrets",
+        "--fake-values-only"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "generic",
+            "expected": "generic",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "bearer secret absent from text summary",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "bearer secret absent from JSON summary",
+            "passed": true
+          },
+          {
+            "actual": "present",
+            "expected": "present",
+            "name": "bearer secret retained in complete log",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "API key absent from text summary",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "API key absent from JSON summary",
+            "passed": true
+          },
+          {
+            "actual": "present",
+            "expected": "present",
+            "name": "API key retained in complete log",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "password assignment absent from text summary",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "password assignment absent from JSON summary",
+            "passed": true
+          },
+          {
+            "actual": "present",
+            "expected": "present",
+            "name": "password assignment retained in complete log",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "URL password absent from text summary",
+            "passed": true
+          },
+          {
+            "actual": "absent",
+            "expected": "absent",
+            "name": "URL password absent from JSON summary",
+            "passed": true
+          },
+          {
+            "actual": "present",
+            "expected": "present",
+            "name": "URL password retained in complete log",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": true,
+        "passed": true,
+        "redaction_passed": true
+      },
+      "expected_exit_code": 7,
+      "expected_parser": "generic",
+      "expected_status": "failed",
+      "id": "secret-redaction",
+      "json_exit_code": 7,
+      "name": "Secret redaction",
+      "parser": "generic",
+      "raw": {
+        "bytes": 179,
+        "lines": 4
+      },
+      "raw_exit_code": 7,
+      "reduction": {
+        "byte_percent": -165.363128,
+        "line_percent": -450.0
+      },
+      "status": "failed",
+      "stored_log_bytes": 179,
+      "summary": {
+        "bytes": 475,
+        "lines": 22
+      },
+      "tokensave_exit_code": 7
+    },
+    {
+      "command": [
+        "benchmark-large-output",
+        "--deterministic"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "generic",
+            "expected": "generic",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 13,
+            "expected": "<= 12",
+            "name": "maximum summary lines respected",
+            "passed": false
+          },
+          {
+            "actual": "present",
+            "expected": "truncation marker present",
+            "name": "truncation reported",
+            "passed": true
+          },
+          {
+            "actual": {
+              "bytes": 35340,
+              "content": "identical"
+            },
+            "expected": {
+              "bytes": 35340,
+              "content": "identical to raw output"
+            },
+            "name": "complete log retained",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": false,
+        "passed": false,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 7,
+      "expected_parser": "generic",
+      "expected_status": "failed",
+      "id": "large-output-line-limit",
+      "json_exit_code": 7,
+      "name": "Large-output line limit",
+      "parser": "generic",
+      "raw": {
+        "bytes": 35340,
+        "lines": 330
+      },
+      "raw_exit_code": 7,
+      "reduction": {
+        "byte_percent": 99.335031,
+        "line_percent": 96.060606
+      },
+      "status": "failed",
+      "stored_log_bytes": 35340,
+      "summary": {
+        "bytes": 235,
+        "lines": 13
+      },
+      "tokensave_exit_code": 7
+    },
+    {
+      "command": [
+        "benchmark-large-output",
+        "--deterministic"
+      ],
+      "correctness": {
+        "checks": [
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "raw exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave text exit code",
+            "passed": true
+          },
+          {
+            "actual": 7,
+            "expected": 7,
+            "name": "TokenSave JSON exit code",
+            "passed": true
+          },
+          {
+            "actual": "generic",
+            "expected": "generic",
+            "name": "parser",
+            "passed": true
+          },
+          {
+            "actual": "failed",
+            "expected": "failed",
+            "name": "status",
+            "passed": true
+          },
+          {
+            "actual": 269,
+            "expected": "<= 240",
+            "name": "maximum summary characters respected",
+            "passed": false
+          },
+          {
+            "actual": "present",
+            "expected": "truncation marker present",
+            "name": "truncation reported",
+            "passed": true
+          },
+          {
+            "actual": {
+              "bytes": 35340,
+              "content": "identical"
+            },
+            "expected": {
+              "bytes": 35340,
+              "content": "identical to raw output"
+            },
+            "name": "complete log retained",
+            "passed": true
+          }
+        ],
+        "exit_code_preserved": true,
+        "expected_diagnosis_retained": false,
+        "passed": false,
+        "redaction_passed": null
+      },
+      "expected_exit_code": 7,
+      "expected_parser": "generic",
+      "expected_status": "failed",
+      "id": "large-output-character-limit",
+      "json_exit_code": 7,
+      "name": "Large-output character limit",
+      "parser": "generic",
+      "raw": {
+        "bytes": 35340,
+        "lines": 330
+      },
+      "raw_exit_code": 7,
+      "reduction": {
+        "byte_percent": 99.238823,
+        "line_percent": 95.757576
+      },
+      "status": "failed",
+      "stored_log_bytes": 35340,
+      "summary": {
+        "bytes": 269,
+        "lines": 14
+      },
+      "tokensave_exit_code": 7
+    }
+  ],
+  "schema_version": 1
+}
