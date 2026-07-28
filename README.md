@@ -16,7 +16,7 @@ Windows PowerShell:
 irm https://raw.githubusercontent.com/vexato/tokensave/main/scripts/install.ps1 | iex
 ```
 
-Both installers download the appropriate pre-built GitHub Release asset; Go is not required. Pin a Unix-like installation with `TOKENSAVE_VERSION=v1.0.0 sh install.sh`, or use PowerShell `-Version v1.0.0`. For contributors building from a checkout, use `make build` / `make install` (Go required).
+Both installers download the appropriate pre-built GitHub Release asset; Go is not required. They also install the bundled `tokensave` Codex Skill into `$CODEX_HOME/skills/tokensave` (or `~/.codex/skills/tokensave`). The PowerShell installer adds TokenSave to the user `PATH` automatically and makes it available in the current session. Pin a Unix-like installation with `TOKENSAVE_VERSION=v1.0.0 sh install.sh`, or use PowerShell `-Version v1.0.0`. For contributors building from a checkout, use `make build` / `make install` (Go required).
 
 ## Usage
 

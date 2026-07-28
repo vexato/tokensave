@@ -4,6 +4,7 @@ set -eu
 repository="vexato/tokensave"
 version="${TOKENSAVE_VERSION:-latest}"
 install_dir="${TOKENSAVE_INSTALL_DIR:-$HOME/.local/bin}"
+codex_home="${CODEX_HOME:-$HOME/.codex}"
 
 os="$(uname -s)"
 arch="$(uname -m)"
@@ -36,6 +37,15 @@ curl --fail --location --silent --show-error "$download_url" -o "$tmpdir/$asset"
 tar -xzf "$tmpdir/$asset" -C "$tmpdir"
 mkdir -p "$install_dir"
 install -m 0755 "$tmpdir/tokensave" "$install_dir/tokensave"
+if [ -f "$tmpdir/skills/tokensave/SKILL.md" ]; then
+  mkdir -p "$codex_home/skills/tokensave"
+  cp "$tmpdir/skills/tokensave/SKILL.md" "$codex_home/skills/tokensave/SKILL.md"
+  printf 'Codex Skill installed in %s\n' "$codex_home/skills/tokensave"
+else
+  mkdir -p "$codex_home/skills/tokensave"
+  curl --fail --location --silent --show-error "https://raw.githubusercontent.com/$repository/main/skills/tokensave/SKILL.md" -o "$codex_home/skills/tokensave/SKILL.md"
+  printf 'Codex Skill installed in %s (from main)\n' "$codex_home/skills/tokensave"
+fi
 
 printf 'TokenSave installed in %s\n' "$install_dir"
 case ":$PATH:" in

@@ -49,10 +49,14 @@ jobs:
           binary="tokensave"
           if [ "$GOOS" = windows ]; then binary="tokensave.exe"; fi
           CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -buildvcs=false -o "$binary" ./cmd/tokensave
+          mkdir package
+          mv "$binary" package/
+          mkdir -p package/skills/tokensave
+          cp skills/tokensave/SKILL.md package/skills/tokensave/SKILL.md
           if [ "$ARCHIVE" = zip ]; then
-            zip "$name.zip" "$binary"
+            (cd package && zip "../$name.zip" tokensave.exe skills/tokensave/SKILL.md)
           else
-            tar -czf "$name.tar.gz" "$binary"
+            tar -czf "$name.tar.gz" -C package tokensave skills/tokensave/SKILL.md
           fi
       - uses: actions/upload-artifact@v4
         with:
