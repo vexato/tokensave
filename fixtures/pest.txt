@@ -1,0 +1,3 @@
+Pest v2
+FAIL  Tests\\Feature\\InvoiceTest
+Tests: 3, Assertions: 5, Failures: 1

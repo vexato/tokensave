@@ -1,0 +1,7 @@
+PHPUnit 10.5.0
+
+Tests: 4, Assertions: 8, Failures: 2, Errors: 0
+
+1) UserServiceTest::testCreatesUser
+Expected status 201, received 500
+tests/Unit/UserServiceTest.php:84

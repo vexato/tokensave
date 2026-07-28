@@ -1,0 +1,3 @@
+Loading composer repositories with package information
+Your requirements could not be resolved to an installable set of packages.
+Problem 1
