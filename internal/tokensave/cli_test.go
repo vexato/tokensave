@@ -114,7 +114,10 @@ func TestHomeUsesExistingProjectStore(t *testing.T) {
 		t.Fatal(err)
 	}
 	home, err := Home()
-	if err != nil || home != filepath.Join(project, ".tokensave") {
+	expectedHome := filepath.Join(project, ".tokensave")
+	resolvedHome, resolveErr := filepath.EvalSymlinks(home)
+	resolvedExpectedHome, expectedResolveErr := filepath.EvalSymlinks(expectedHome)
+	if err != nil || resolveErr != nil || expectedResolveErr != nil || resolvedHome != resolvedExpectedHome {
 		t.Fatalf("home=%q err=%v", home, err)
 	}
 }
