@@ -2,6 +2,7 @@ package tokensave
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -15,6 +16,30 @@ func Home() (string, error) {
 	if h := os.Getenv("TOKENSAVE_HOME"); h != "" {
 		return h, nil
 	}
+	if projectHome := existingProjectHome(); projectHome != "" {
+		return projectHome, nil
+	}
+	return systemHome()
+}
+
+func existingProjectHome() string {
+	cwd, err := os.Getwd()
+	if err != nil {
+		return ""
+	}
+	for dir := cwd; ; dir = filepath.Dir(dir) {
+		projectHome := filepath.Join(dir, ".tokensave")
+		if info, statErr := os.Stat(filepath.Join(projectHome, "runs")); statErr == nil && info.IsDir() {
+			return projectHome
+		}
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			return ""
+		}
+	}
+}
+
+func systemHome() (string, error) {
 	h, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
@@ -45,6 +70,40 @@ func RunDir(id string) (string, error) {
 	}
 	r, e := runsDir()
 	return filepath.Join(r, id), e
+}
+
+func projectRunDir(id string) (string, error) {
+	if id == "" || strings.ContainsAny(id, `/\\`) || strings.Contains(id, "..") {
+		return "", fmt.Errorf("invalid run id")
+	}
+	cwd, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(cwd, ".tokensave", "runs", id), nil
+}
+
+// CreateRunDir prefers the configured/system location. If it is not writable
+// (for example inside an agent sandbox), logs stay with the project instead.
+func CreateRunDir(id string) (string, error) {
+	dir, err := RunDir(id)
+	if err != nil {
+		return "", err
+	}
+	if err = os.MkdirAll(dir, 0755); err == nil {
+		return dir, nil
+	}
+	if !errors.Is(err, os.ErrPermission) {
+		return "", err
+	}
+	projectDir, projectErr := projectRunDir(id)
+	if projectErr != nil {
+		return "", err
+	}
+	if projectErr = os.MkdirAll(projectDir, 0755); projectErr != nil {
+		return "", projectErr
+	}
+	return projectDir, nil
 }
 func WriteJSON(path string, value any) error {
 	b, e := json.MarshalIndent(value, "", "  ")

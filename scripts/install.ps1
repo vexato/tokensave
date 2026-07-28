@@ -31,6 +31,27 @@ function Add-ToUserPath([string]$Directory) {
     return -not $containsDirectory
 }
 
+function Publish-EnvironmentChange {
+    if (-not ("TokenSave.EnvironmentNotifier" -as [type])) {
+        Add-Type @'
+using System;
+using System.Runtime.InteropServices;
+namespace TokenSave {
+    public static class EnvironmentNotifier {
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessageTimeout(
+            IntPtr hWnd, uint msg, IntPtr wParam, string lParam,
+            uint flags, uint timeout, out IntPtr result);
+    }
+}
+'@
+    }
+    $result = [IntPtr]::Zero
+    [void][TokenSave.EnvironmentNotifier]::SendMessageTimeout(
+        [IntPtr]0xffff, 0x001A, [IntPtr]::Zero, "Environment", 0x0002, 5000, [ref]$result
+    )
+}
+
 Write-Host ""
 Write-Host "  +-----------------------------+" -ForegroundColor Cyan
 Write-Host "  |     TokenSave installer     |" -ForegroundColor Cyan
@@ -89,7 +110,8 @@ try {
 }
 
 $pathWasAdded = Add-ToUserPath $InstallDir
-Write-Step "PATH" $(if ($pathWasAdded) { "added for this user" } else { "already configured" })
+if ($pathWasAdded) { Publish-EnvironmentChange }
+Write-Step "PATH" $(if ($pathWasAdded) { "added permanently for this user" } else { "already configured" })
 Write-Host ""
 Write-Host "  [OK] TokenSave $($release.tag_name) is ready." -ForegroundColor Green
 Write-Host "    Try: " -NoNewline -ForegroundColor Gray

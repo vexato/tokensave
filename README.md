@@ -43,6 +43,8 @@ Each run is stored below `TOKENSAVE_HOME`, or the native state directory:
 - macOS: `~/Library/Application Support/tokensave`
 - Windows: `%LOCALAPPDATA%\\tokensave`
 
+When that system location is unavailable (notably in a sandboxed coding agent), TokenSave automatically falls back to `.tokensave/` in the current project. The folder is Git-ignored by default. Set `TOKENSAVE_HOME` to force a specific location.
+
 The run directory contains `metadata.json`, `stdout.log`, `stderr.log`, `combined.log`, `summary.txt`, and `summary.json`.
 
 ## Output and JSON

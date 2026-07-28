@@ -44,11 +44,8 @@ func ExecuteRun(req RunRequest, c Config) (Metadata, Summary, error) {
 	}
 	started := time.Now().UTC()
 	id := NewRunID(started)
-	root, e := RunDir(id)
+	root, e := CreateRunDir(id)
 	if e != nil {
-		return Metadata{}, Summary{}, e
-	}
-	if e = os.MkdirAll(root, 0755); e != nil {
 		return Metadata{}, Summary{}, e
 	}
 	stdout, e := os.Create(filepath.Join(root, "stdout.log"))

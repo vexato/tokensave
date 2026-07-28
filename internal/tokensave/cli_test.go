@@ -98,3 +98,23 @@ func TestLargeOutputIsStored(t *testing.T) {
 		t.Fatalf("expected multi-megabyte log, got %d bytes", m.StdoutBytes)
 	}
 }
+
+func TestHomeUsesExistingProjectStore(t *testing.T) {
+	t.Setenv("TOKENSAVE_HOME", "")
+	project := t.TempDir()
+	old, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = os.Chdir(old) })
+	if err := os.Chdir(project); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(filepath.Join(project, ".tokensave", "runs"), 0755); err != nil {
+		t.Fatal(err)
+	}
+	home, err := Home()
+	if err != nil || home != filepath.Join(project, ".tokensave") {
+		t.Fatalf("home=%q err=%v", home, err)
+	}
+}
