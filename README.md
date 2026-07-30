@@ -408,43 +408,36 @@ The Skill directs Codex to:
 
 ## Benchmarks
 
-<<<<<<< HEAD
 Run the deterministic, offline correctness and performance benchmark with:
-=======
-Run the reproducible local benchmark:
->>>>>>> 523d7836c1a1cea0f9a951ab656a78e9b42ac0ea
 
 ```sh
 make benchmark
 ```
 
-<<<<<<< HEAD
-The suite generates both [the Markdown benchmark report](docs/benchmarks.md) and its machine-readable JSON counterpart from the same measured data. It checks exit-code preservation, parser detection, diagnostic retention, secret redaction, output limits, displayed line and byte reduction, and runtime overhead across deterministic generated output, repository fixtures, and a temporary Git repository.
-
-Results depend on the command, parser, configuration, operating system, filesystem, and TokenSave version. They do not represent every command or every coding-agent workload; see the full report for the measured results and limitations.
-=======
-Or write the result to a Markdown file:
+To write the Markdown report directly to a specific location:
 
 ```sh
 scripts/benchmark.sh --output docs/benchmarks.md
 ```
 
-The benchmark compares raw command output with the summary displayed by TokenSave.
+The suite generates both [the Markdown benchmark report](docs/benchmarks.md) and its machine-readable JSON counterpart from the same measured data.
 
-It measures:
+It checks:
 
-* raw line count;
-* summary line count;
-* line reduction;
-* raw byte count;
-* summary byte count;
-* byte reduction;
-* exit-code preservation.
+* exit-code preservation;
+* parser detection;
+* diagnostic retention;
+* secret redaction;
+* output limits;
+* displayed line and byte reduction;
+* runtime overhead.
 
-Results depend on the command, parser, configuration, platform, and TokenSave version.
+The benchmark uses deterministic generated output, repository fixtures, and a temporary Git repository.
 
-Line and byte reductions should not be interpreted as exact token reductions.
->>>>>>> 523d7836c1a1cea0f9a951ab656a78e9b42ac0ea
+Results depend on the command, parser, configuration, operating system, filesystem, and TokenSave version. They do not represent every command or every coding-agent workload.
+
+Line and byte reductions should not be interpreted as exact token reductions. See the full report for measured results and limitations.
+
 
 ## Current limitations
 
