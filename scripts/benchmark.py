@@ -150,7 +150,22 @@ def contains_diagnostic(summary: dict[str, Any], needle: str) -> bool:
         "important_paths": summary.get("important_paths", []),
         "last_relevant": summary.get("last_relevant", []),
     }
-    return needle.casefold() in json.dumps(searchable, sort_keys=True).casefold()
+
+    def string_values(value: Any) -> list[str]:
+        if isinstance(value, str):
+            return [value]
+        if isinstance(value, dict):
+            return [
+                text
+                for child in value.values()
+                for text in string_values(child)
+            ]
+        if isinstance(value, list):
+            return [text for child in value for text in string_values(child)]
+        return []
+
+    expected = needle.casefold()
+    return any(expected in value.casefold() for value in string_values(searchable))
 
 
 def create_fixture_shim(temp_dir: Path, environment: dict[str, str]) -> Path:

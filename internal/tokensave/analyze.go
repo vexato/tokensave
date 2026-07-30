@@ -51,7 +51,7 @@ func min(a, b int) int {
 }
 
 var importantPattern = regexp.MustCompile(`(?i)([A-Za-z0-9_./\\-]+\.(?:go|php|ts|tsx|js|jsx|json|ya?ml|css|md|py|java|rb))(?:[: ]+line )?:(\d+)|([A-Za-z0-9_./\\-]+\.(?:go|php|ts|tsx|js|jsx|json|ya?ml|css|md|py|java|rb)):(\d+)`)
-var errorPattern = regexp.MustCompile(`(?i)\b(error|failed|failure|fatal|exception|warning|cannot find|not found|panic)\b`)
+var errorPattern = regexp.MustCompile(`(?i)(?:\b(?:error|failed|failure|fatal|exception|warning|cannot find|not found|panic)\b|\berr!)`)
 
 func findLocation(line string) (string, int) {
 	m := importantPattern.FindStringSubmatch(line)
@@ -249,22 +249,31 @@ func (pestParser) Parse(lines []string) (map[string]any, []Failure, []string, []
 	return testParse(lines, "pest")
 }
 
-var testsPattern = regexp.MustCompile(`(?i)Tests:\s*(\d+).*?(?:Assertions:\s*(\d+))?.*?(?:Failures?:\s*(\d+))?.*?(?:Errors?:\s*(\d+))?`)
+var testMetricPatterns = []struct {
+	key     string
+	pattern *regexp.Regexp
+}{
+	{"tests", regexp.MustCompile(`(?i)\bTests:\s*(\d+)`)},
+	{"assertions", regexp.MustCompile(`(?i)\bAssertions:\s*(\d+)`)},
+	{"failed", regexp.MustCompile(`(?i)\bFailures?:\s*(\d+)`)},
+	{"errors", regexp.MustCompile(`(?i)\bErrors?:\s*(\d+)`)},
+}
 
-func testParse(lines []string, _ string) (map[string]any, []Failure, []string, []string) {
+var numberedTestFailurePattern = regexp.MustCompile(`^\s*\d+\)\s*`)
+var pestFailurePattern = regexp.MustCompile(`(?i)^\s*FAIL\s+(.+?)\s*$`)
+
+func testParse(lines []string, parser string) (map[string]any, []Failure, []string, []string) {
 	a := map[string]any{}
 	f := []Failure{}
 	paths := []string{}
 	for i, l := range lines {
-		if m := testsPattern.FindStringSubmatch(l); len(m) > 0 {
-			for n, k := range []string{"tests", "assertions", "failed", "errors"} {
-				if n+1 < len(m) && m[n+1] != "" {
-					a[k], _ = strconv.Atoi(m[n+1])
-				}
+		for _, metric := range testMetricPatterns {
+			if m := metric.pattern.FindStringSubmatch(l); len(m) > 1 {
+				a[metric.key], _ = strconv.Atoi(m[1])
 			}
 		}
-		if strings.HasPrefix(strings.TrimSpace(l), "1)") || regexp.MustCompile(`^\s*\d+\)\s+`).MatchString(l) {
-			name := strings.TrimSpace(regexp.MustCompile(`^\s*\d+\)\s*`).ReplaceAllString(l, ""))
+		if numberedTestFailurePattern.MatchString(l) {
+			name := strings.TrimSpace(numberedTestFailurePattern.ReplaceAllString(l, ""))
 			msg := ""
 			if i+1 < len(lines) {
 				msg = strings.TrimSpace(lines[i+1])
@@ -274,6 +283,11 @@ func testParse(lines []string, _ string) (map[string]any, []Failure, []string, [
 				paths = append(paths, p)
 			}
 			f = append(f, Failure{Index: len(f) + 1, Name: name, Message: msg, File: p, Line: n})
+		}
+		if parser == "pest" {
+			if m := pestFailurePattern.FindStringSubmatch(l); len(m) > 1 {
+				f = append(f, Failure{Index: len(f) + 1, Name: strings.TrimSpace(m[1]), Message: "Test failed"})
+			}
 		}
 		if strings.Contains(l, "OK (") {
 			a["passed"] = true
@@ -297,6 +311,7 @@ func (composerParser) Detect(cmd []string, out string) bool {
 func (composerParser) Parse(lines []string) (map[string]any, []Failure, []string, []string) {
 	a, f, p, l := genericParse(lines)
 	installed, updated, removed := 0, 0, 0
+	problem, resolution := "", ""
 	for _, x := range lines {
 		z := strings.ToLower(x)
 		if strings.Contains(z, "installing ") {
@@ -308,6 +323,21 @@ func (composerParser) Parse(lines []string) (map[string]any, []Failure, []string
 		if strings.Contains(z, "removing ") {
 			removed++
 		}
+		if strings.HasPrefix(strings.TrimSpace(z), "problem ") {
+			problem = strings.TrimSpace(x)
+		}
+		if strings.Contains(z, "could not be resolved to an installable set of packages") {
+			resolution = strings.TrimSpace(x)
+		}
+	}
+	if problem != "" || resolution != "" {
+		if problem == "" {
+			problem = "Composer dependency resolution"
+		}
+		if resolution == "" {
+			resolution = problem
+		}
+		f = append(f, Failure{Index: len(f) + 1, Name: problem, Message: resolution})
 	}
 	a["installed"] = installed
 	a["updated"] = updated

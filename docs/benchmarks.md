@@ -1,11 +1,11 @@
 # TokenSave benchmark
 
-One or more mandatory correctness assertions failed; details follow.
+All mandatory correctness assertions passed.
 
 ## Benchmark metadata
 
-- Benchmark date: 2026-07-28
-- TokenSave commit: `ed892f8178665867af865d0bd3eda7287700ab82`
+- Benchmark date: 2026-07-30
+- TokenSave commit: `a5bcd508f6b84fd3371d796a67950d35e923fd92`
 - TokenSave version: development build (no embedded version metadata)
 - Operating system: Windows 11
 - Architecture: AMD64
@@ -23,28 +23,15 @@ The TokenSave binary was built from the current Go source at the commit above. B
 |---|---|---|---|---|
 | Generic success | `generic` | Yes | Yes | N/A |
 | Generic failure | `generic` | Yes | Yes | N/A |
-| PHPUnit failure | `phpunit` | No | Yes | N/A |
-| Pest failure | `pest` | No | Yes | N/A |
-| npm failure | `node` | No | Yes | N/A |
-| Composer failure | `composer` | No | Yes | N/A |
+| PHPUnit failure | `phpunit` | Yes | Yes | N/A |
+| Pest failure | `pest` | Yes | Yes | N/A |
+| npm failure | `node` | Yes | Yes | N/A |
+| Composer failure | `composer` | Yes | Yes | N/A |
 | Git status | `git-status` | Yes | Yes | N/A |
 | Git diff | `git-diff` | Yes | Yes | N/A |
 | Secret redaction | `generic` | Yes | Yes | Yes |
-| Large-output line limit | `generic` | No | Yes | N/A |
-| Large-output character limit | `generic` | No | Yes | N/A |
-
-### Failed correctness assertions
-
-- **PHPUnit failure - reported failed tests:** expected `2`; observed `null`.
-- **Pest failure - detected assertions:** expected `5`; observed `null`.
-- **Pest failure - reported failed tests:** expected `1`; observed `null`.
-- **Pest failure - failed test name retained:** expected `"Tests\\\\Feature\\\\InvoiceTest"`; observed `{"failures": [], "last_relevant": []}`.
-- **npm failure - npm error code retained:** expected `"ERESOLVE"`; observed `{"failures": [], "last_relevant": []}`.
-- **npm failure - npm diagnostic retained:** expected `"unable to resolve dependency tree"`; observed `{"failures": [], "last_relevant": []}`.
-- **Composer failure - Composer diagnostic retained:** expected `"could not be resolved to an installable set of packages"`; observed `{"failures": [], "last_relevant": []}`.
-- **Composer failure - Composer problem retained:** expected `"Problem 1"`; observed `{"failures": [], "last_relevant": []}`.
-- **Large-output line limit - maximum summary lines respected:** expected `"<= 12"`; observed `13`.
-- **Large-output character limit - maximum summary characters respected:** expected `"<= 240"`; observed `269`.
+| Large-output line limit | `generic` | Yes | Yes | N/A |
+| Large-output character limit | `generic` | Yes | Yes | N/A |
 
 ## Output reduction
 
@@ -52,15 +39,15 @@ The TokenSave binary was built from the current Go source at the commit above. B
 |---|---:|---:|---:|---:|---:|---:|
 | Generic success | 400 | 10 | 97.50% | 16800 | 201 | 98.80% |
 | Generic failure | 181 | 20 | 88.95% | 7095 | 444 | 93.74% |
-| PHPUnit failure | 7 | 19 | -171.43% | 169 | 386 | -128.40% |
-| Pest failure | 3 | 11 | -266.67% | 79 | 210 | -165.82% |
-| npm failure | 2 | 12 | -500.00% | 66 | 240 | -263.64% |
-| Composer failure | 3 | 12 | -300.00% | 140 | 266 | -90.00% |
+| PHPUnit failure | 7 | 22 | -214.29% | 169 | 420 | -148.52% |
+| Pest failure | 3 | 17 | -466.67% | 79 | 292 | -269.62% |
+| npm failure | 2 | 18 | -800.00% | 66 | 360 | -445.45% |
+| Composer failure | 3 | 16 | -433.33% | 140 | 369 | -163.57% |
 | Git status | 4 | 21 | -425.00% | 224 | 322 | -43.75% |
 | Git diff | 7 | 19 | -171.43% | 173 | 323 | -86.71% |
 | Secret redaction | 4 | 22 | -450.00% | 179 | 475 | -165.36% |
-| Large-output line limit | 330 | 13 | 96.06% | 35340 | 235 | 99.34% |
-| Large-output character limit | 330 | 14 | 95.76% | 35340 | 269 | 99.24% |
+| Large-output line limit | 330 | 12 | 96.36% | 35340 | 218 | 99.38% |
+| Large-output character limit | 330 | 14 | 95.76% | 35340 | 240 | 99.32% |
 
 These percentages measure displayed line and byte reduction. Negative values are retained when a summary is larger than the raw output.
 
@@ -68,9 +55,9 @@ These percentages measure displayed line and byte reduction. Negative values are
 
 | Scenario | Raw median | TokenSave median | Absolute overhead | Relative overhead | P95 overhead | Stored bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| Generic success | 9.816 ms | 36.347 ms | 26.531 ms | 270.27% | 31.545 ms | 16800 |
-| PHPUnit failure | 9.378 ms | 25.401 ms | 16.023 ms | 170.85% | 17.582 ms | 169 |
-| Git status | 40.388 ms | 54.128 ms | 13.740 ms | 34.02% | 17.998 ms | 224 |
+| Generic success | 9.803 ms | 35.290 ms | 25.487 ms | 260.00% | 29.336 ms | 16800 |
+| PHPUnit failure | 9.403 ms | 25.204 ms | 15.801 ms | 168.04% | 16.814 ms | 169 |
+| Git status | 39.018 ms | 53.234 ms | 14.216 ms | 36.44% | 16.425 ms | 224 |
 
 ## Methodology
 

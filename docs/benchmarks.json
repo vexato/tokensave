@@ -1,45 +1,45 @@
 {
-  "all_mandatory_correctness_passed": false,
+  "all_mandatory_correctness_passed": true,
   "metadata": {
     "architecture": "AMD64",
-    "benchmark_date": "2026-07-28",
+    "benchmark_date": "2026-07-30",
     "configuration": "default max_lines=80, max_chars=12000, max_failures=5; line-limit override max_lines=12, max_chars=12000, max_failures=20; character-limit override max_lines=80, max_chars=240, max_failures=20; redaction enabled",
     "go_version": "go version go1.26.5 windows/amd64",
     "iterations": 20,
     "operating_system": "Windows 11",
     "storage_location_type": "isolated automatically removed temporary directory on the local filesystem",
     "timer": "Python time.perf_counter_ns",
-    "tokensave_commit": "ed892f8178665867af865d0bd3eda7287700ab82",
+    "tokensave_commit": "a5bcd508f6b84fd3371d796a67950d35e923fd92",
     "tokensave_version": "development build (no embedded version metadata)",
     "warmup_iterations": 3
   },
   "performance": [
     {
-      "absolute_overhead_ms": 26.531,
+      "absolute_overhead_ms": 25.4873,
       "exit_codes_preserved": true,
       "measured_iterations": 20,
-      "p95_overhead_ms": 31.545,
+      "p95_overhead_ms": 29.3358,
       "paired_overhead_samples_ms": [
-        25.7708,
-        26.6336,
-        28.1841,
-        26.5589,
-        34.9583,
-        25.7908,
-        27.2846,
-        27.7067,
-        27.805,
-        28.2571,
-        28.703,
-        31.545,
-        28.8634,
-        26.0582,
-        24.0493,
-        25.0673,
-        25.7527,
-        26.2092,
-        24.4039,
-        25.0667
+        24.5192,
+        25.6178,
+        25.3723,
+        27.4645,
+        26.6284,
+        27.6855,
+        32.0935,
+        27.5461,
+        27.2609,
+        24.1395,
+        25.3317,
+        29.3358,
+        23.7324,
+        25.0332,
+        23.7972,
+        24.6602,
+        25.3474,
+        26.2526,
+        25.3448,
+        24.5057
       ],
       "raw_exit_codes": [
         0,
@@ -63,30 +63,30 @@
         0,
         0
       ],
-      "raw_median_ms": 9.81645,
+      "raw_median_ms": 9.80285,
       "raw_samples_ms": [
-        9.7724,
-        9.5507,
-        9.4779,
-        10.4669,
-        10.3284,
-        10.3918,
-        9.226,
-        11.2745,
-        11.3241,
-        10.0576,
-        10.509,
-        10.0246,
-        10.4222,
-        9.5758,
-        9.2848,
-        9.5153,
-        9.0541,
-        9.1697,
-        8.8017,
-        9.8605
+        10.8977,
+        10.9927,
+        9.7871,
+        10.1283,
+        10.3178,
+        11.0017,
+        11.2373,
+        11.7361,
+        10.3511,
+        9.8947,
+        8.8353,
+        9.2751,
+        9.27,
+        9.1562,
+        9.4627,
+        9.4553,
+        9.0497,
+        9.2857,
+        9.8186,
+        9.7271
       ],
-      "relative_overhead_percent": 270.270821,
+      "relative_overhead_percent": 259.998878,
       "scenario": "Generic success",
       "scenario_id": "generic-success",
       "stored_log_bytes": 16800,
@@ -113,57 +113,57 @@
         0,
         0
       ],
-      "tokensave_median_ms": 36.34745,
+      "tokensave_median_ms": 35.29015,
       "tokensave_samples_ms": [
-        35.5432,
-        36.1843,
-        37.662,
-        37.0258,
-        45.2867,
-        36.1826,
-        36.5106,
-        38.9812,
-        39.1291,
-        38.3147,
-        39.212,
-        41.5696,
-        39.2856,
-        35.634,
-        33.3341,
-        34.5826,
-        34.8068,
-        35.3789,
-        33.2056,
-        34.9272
+        35.4169,
+        36.6105,
+        35.1594,
+        37.5928,
+        36.9462,
+        38.6872,
+        43.3308,
+        39.2822,
+        37.612,
+        34.0342,
+        34.167,
+        38.6109,
+        33.0024,
+        34.1894,
+        33.2599,
+        34.1155,
+        34.3971,
+        35.5383,
+        35.1634,
+        34.2328
       ],
       "warmup_iterations": 3
     },
     {
-      "absolute_overhead_ms": 16.0228,
+      "absolute_overhead_ms": 15.801,
       "exit_codes_preserved": true,
       "measured_iterations": 20,
-      "p95_overhead_ms": 17.5817,
+      "p95_overhead_ms": 16.8139,
       "paired_overhead_samples_ms": [
-        17.4388,
-        15.4732,
-        16.1419,
-        15.3148,
-        17.5324,
-        17.5817,
-        15.2379,
-        15.1875,
-        16.7127,
-        18.4888,
-        16.3398,
-        17.573,
-        15.4426,
-        15.758,
-        16.4124,
-        16.2088,
-        15.668,
-        15.5428,
-        15.2739,
-        15.5189
+        15.5726,
+        15.8069,
+        16.0982,
+        16.8139,
+        14.4855,
+        16.1105,
+        16.7886,
+        16.8008,
+        17.3839,
+        16.0212,
+        13.888,
+        16.361,
+        15.7252,
+        15.248,
+        14.1157,
+        15.4774,
+        16.6507,
+        15.3263,
+        14.7927,
+        16.0486
       ],
       "raw_exit_codes": [
         1,
@@ -187,30 +187,30 @@
         1,
         1
       ],
-      "raw_median_ms": 9.37805,
+      "raw_median_ms": 9.40325,
       "raw_samples_ms": [
-        9.4218,
-        9.437,
-        8.7071,
-        9.0635,
-        8.9884,
-        9.6563,
-        8.9117,
-        9.2147,
-        9.3212,
-        9.7614,
-        9.6692,
-        9.8486,
-        10.0855,
-        9.6877,
-        9.3343,
-        8.8776,
-        9.688,
-        9.6947,
-        8.6154,
-        9.2099
+        9.4102,
+        9.2896,
+        9.1454,
+        9.5243,
+        9.2567,
+        9.1122,
+        10.1423,
+        10.3102,
+        9.6102,
+        9.5018,
+        10.8671,
+        9.3901,
+        9.4606,
+        9.6651,
+        9.3963,
+        10.4207,
+        9.0548,
+        8.8921,
+        9.0767,
+        9.0253
       ],
-      "relative_overhead_percent": 170.854282,
+      "relative_overhead_percent": 168.037647,
       "scenario": "PHPUnit failure",
       "scenario_id": "phpunit-failure",
       "stored_log_bytes": 169,
@@ -237,57 +237,57 @@
         1,
         1
       ],
-      "tokensave_median_ms": 25.40085,
+      "tokensave_median_ms": 25.20425,
       "tokensave_samples_ms": [
-        26.8606,
-        24.9102,
-        24.849,
-        24.3783,
-        26.5208,
-        27.238,
-        24.1496,
-        24.4022,
-        26.0339,
-        28.2502,
-        26.009,
-        27.4216,
-        25.5281,
-        25.4457,
-        25.7467,
-        25.0864,
-        25.356,
-        25.2375,
-        23.8893,
-        24.7288
+        24.9828,
+        25.0965,
+        25.2436,
+        26.3382,
+        23.7422,
+        25.2227,
+        26.9309,
+        27.111,
+        26.9941,
+        25.523,
+        24.7551,
+        25.7511,
+        25.1858,
+        24.9131,
+        23.512,
+        25.8981,
+        25.7055,
+        24.2184,
+        23.8694,
+        25.0739
       ],
       "warmup_iterations": 3
     },
     {
-      "absolute_overhead_ms": 13.74035,
+      "absolute_overhead_ms": 14.2163,
       "exit_codes_preserved": true,
       "measured_iterations": 20,
-      "p95_overhead_ms": 17.9978,
+      "p95_overhead_ms": 16.4249,
       "paired_overhead_samples_ms": [
-        14.8657,
-        15.5366,
-        13.1934,
-        15.4135,
-        10.5984,
-        14.259,
-        13.3604,
-        14.9601,
-        15.7551,
-        12.9087,
-        14.7029,
-        15.4201,
-        17.9978,
-        19.296,
-        15.2347,
-        8.1654,
-        11.1372,
-        12.3208,
-        15.7484,
-        17.6334
+        15.9802,
+        13.4192,
+        15.9865,
+        74.6365,
+        13.0018,
+        14.8345,
+        14.105,
+        13.2602,
+        14.9246,
+        12.6282,
+        15.9409,
+        14.6338,
+        14.3848,
+        9.9085,
+        12.8105,
+        15.8375,
+        15.3231,
+        16.0647,
+        16.4249,
+        12.9467
       ],
       "raw_exit_codes": [
         0,
@@ -311,30 +311,30 @@
         0,
         0
       ],
-      "raw_median_ms": 40.38805,
+      "raw_median_ms": 39.0182,
       "raw_samples_ms": [
-        37.9799,
-        38.3967,
-        39.4525,
-        37.4126,
-        42.355,
-        43.8308,
-        41.1732,
-        38.4975,
-        38.5684,
-        40.2521,
-        38.1597,
-        38.318,
-        37.5707,
-        40.9761,
-        40.524,
-        46.4379,
-        45.2791,
-        41.2318,
-        41.5768,
-        40.5863
+        36.9541,
+        39.5924,
+        37.4438,
+        40.9713,
+        40.2912,
+        37.6922,
+        38.3597,
+        38.635,
+        37.7514,
+        40.0622,
+        39.3654,
+        43.104,
+        40.8471,
+        46.8853,
+        42.3327,
+        37.3385,
+        37.2176,
+        38.671,
+        36.4328,
+        41.019
       ],
-      "relative_overhead_percent": 34.02083,
+      "relative_overhead_percent": 36.435048,
       "scenario": "Git status",
       "scenario_id": "git-status",
       "stored_log_bytes": 224,
@@ -361,28 +361,28 @@
         0,
         0
       ],
-      "tokensave_median_ms": 54.1284,
+      "tokensave_median_ms": 53.2345,
       "tokensave_samples_ms": [
-        52.8456,
-        53.9333,
-        52.6459,
-        52.8261,
-        52.9534,
-        58.0898,
-        54.5336,
-        53.4576,
-        54.3235,
-        53.1608,
-        52.8626,
-        53.7381,
-        55.5685,
-        60.2721,
-        55.7587,
-        54.6033,
-        56.4163,
-        53.5526,
-        57.3252,
-        58.2197
+        52.9343,
+        53.0116,
+        53.4303,
+        115.6078,
+        53.293,
+        52.5267,
+        52.4647,
+        51.8952,
+        52.676,
+        52.6904,
+        55.3063,
+        57.7378,
+        55.2319,
+        56.7938,
+        55.1432,
+        53.176,
+        52.5407,
+        54.7357,
+        52.8577,
+        53.9657
       ],
       "warmup_iterations": 3
     }
@@ -617,10 +617,10 @@
             "passed": true
           },
           {
-            "actual": null,
+            "actual": 2,
             "expected": 2,
             "name": "reported failed tests",
-            "passed": false
+            "passed": true
           },
           {
             "actual": 1,
@@ -654,8 +654,8 @@
           }
         ],
         "exit_code_preserved": true,
-        "expected_diagnosis_retained": false,
-        "passed": false,
+        "expected_diagnosis_retained": true,
+        "passed": true,
         "redaction_passed": null
       },
       "expected_exit_code": 1,
@@ -671,14 +671,14 @@
       },
       "raw_exit_code": 1,
       "reduction": {
-        "byte_percent": -128.402367,
-        "line_percent": -171.428571
+        "byte_percent": -148.52071,
+        "line_percent": -214.285714
       },
       "status": "failed",
       "stored_log_bytes": 169,
       "summary": {
-        "bytes": 386,
-        "lines": 19
+        "bytes": 420,
+        "lines": 22
       },
       "tokensave_exit_code": 1
     },
@@ -726,30 +726,36 @@
             "passed": true
           },
           {
-            "actual": null,
+            "actual": 5,
             "expected": 5,
             "name": "detected assertions",
-            "passed": false
+            "passed": true
           },
           {
-            "actual": null,
+            "actual": 1,
             "expected": 1,
             "name": "reported failed tests",
-            "passed": false
+            "passed": true
           },
           {
             "actual": {
-              "failures": [],
+              "failures": [
+                {
+                  "index": 1,
+                  "message": "Test failed",
+                  "name": "Tests\\\\Feature\\\\InvoiceTest"
+                }
+              ],
               "last_relevant": []
             },
             "expected": "Tests\\\\Feature\\\\InvoiceTest",
             "name": "failed test name retained",
-            "passed": false
+            "passed": true
           }
         ],
         "exit_code_preserved": true,
-        "expected_diagnosis_retained": false,
-        "passed": false,
+        "expected_diagnosis_retained": true,
+        "passed": true,
         "redaction_passed": null
       },
       "expected_exit_code": 1,
@@ -765,14 +771,14 @@
       },
       "raw_exit_code": 1,
       "reduction": {
-        "byte_percent": -165.822785,
-        "line_percent": -266.666667
+        "byte_percent": -269.620253,
+        "line_percent": -466.666667
       },
       "status": "failed",
       "stored_log_bytes": 79,
       "summary": {
-        "bytes": 210,
-        "lines": 11
+        "bytes": 292,
+        "lines": 17
       },
       "tokensave_exit_code": 1
     },
@@ -816,26 +822,60 @@
           },
           {
             "actual": {
-              "failures": [],
-              "last_relevant": []
+              "failures": [
+                {
+                  "context": [
+                    "npm ERR! unable to resolve dependency tree"
+                  ],
+                  "index": 1,
+                  "message": "npm ERR! code ERESOLVE",
+                  "name": "Detected error"
+                },
+                {
+                  "index": 2,
+                  "message": "npm ERR! unable to resolve dependency tree",
+                  "name": "Detected error"
+                }
+              ],
+              "last_relevant": [
+                "npm ERR! code ERESOLVE",
+                "npm ERR! unable to resolve dependency tree"
+              ]
             },
             "expected": "ERESOLVE",
             "name": "npm error code retained",
-            "passed": false
+            "passed": true
           },
           {
             "actual": {
-              "failures": [],
-              "last_relevant": []
+              "failures": [
+                {
+                  "context": [
+                    "npm ERR! unable to resolve dependency tree"
+                  ],
+                  "index": 1,
+                  "message": "npm ERR! code ERESOLVE",
+                  "name": "Detected error"
+                },
+                {
+                  "index": 2,
+                  "message": "npm ERR! unable to resolve dependency tree",
+                  "name": "Detected error"
+                }
+              ],
+              "last_relevant": [
+                "npm ERR! code ERESOLVE",
+                "npm ERR! unable to resolve dependency tree"
+              ]
             },
             "expected": "unable to resolve dependency tree",
             "name": "npm diagnostic retained",
-            "passed": false
+            "passed": true
           }
         ],
         "exit_code_preserved": true,
-        "expected_diagnosis_retained": false,
-        "passed": false,
+        "expected_diagnosis_retained": true,
+        "passed": true,
         "redaction_passed": null
       },
       "expected_exit_code": 1,
@@ -851,14 +891,14 @@
       },
       "raw_exit_code": 1,
       "reduction": {
-        "byte_percent": -263.636364,
-        "line_percent": -500.0
+        "byte_percent": -445.454545,
+        "line_percent": -800.0
       },
       "status": "failed",
       "stored_log_bytes": 66,
       "summary": {
-        "bytes": 240,
-        "lines": 12
+        "bytes": 360,
+        "lines": 18
       },
       "tokensave_exit_code": 1
     },
@@ -903,26 +943,38 @@
           },
           {
             "actual": {
-              "failures": [],
+              "failures": [
+                {
+                  "index": 1,
+                  "message": "Your requirements could not be resolved to an installable set of packages.",
+                  "name": "Problem 1"
+                }
+              ],
               "last_relevant": []
             },
             "expected": "could not be resolved to an installable set of packages",
             "name": "Composer diagnostic retained",
-            "passed": false
+            "passed": true
           },
           {
             "actual": {
-              "failures": [],
+              "failures": [
+                {
+                  "index": 1,
+                  "message": "Your requirements could not be resolved to an installable set of packages.",
+                  "name": "Problem 1"
+                }
+              ],
               "last_relevant": []
             },
             "expected": "Problem 1",
             "name": "Composer problem retained",
-            "passed": false
+            "passed": true
           }
         ],
         "exit_code_preserved": true,
-        "expected_diagnosis_retained": false,
-        "passed": false,
+        "expected_diagnosis_retained": true,
+        "passed": true,
         "redaction_passed": null
       },
       "expected_exit_code": 2,
@@ -938,14 +990,14 @@
       },
       "raw_exit_code": 2,
       "reduction": {
-        "byte_percent": -90.0,
-        "line_percent": -300.0
+        "byte_percent": -163.571429,
+        "line_percent": -433.333333
       },
       "status": "failed",
       "stored_log_bytes": 140,
       "summary": {
-        "bytes": 266,
-        "lines": 12
+        "bytes": 369,
+        "lines": 16
       },
       "tokensave_exit_code": 2
     },
@@ -1333,10 +1385,10 @@
             "passed": true
           },
           {
-            "actual": 13,
+            "actual": 12,
             "expected": "<= 12",
             "name": "maximum summary lines respected",
-            "passed": false
+            "passed": true
           },
           {
             "actual": "present",
@@ -1358,8 +1410,8 @@
           }
         ],
         "exit_code_preserved": true,
-        "expected_diagnosis_retained": false,
-        "passed": false,
+        "expected_diagnosis_retained": true,
+        "passed": true,
         "redaction_passed": null
       },
       "expected_exit_code": 7,
@@ -1375,14 +1427,14 @@
       },
       "raw_exit_code": 7,
       "reduction": {
-        "byte_percent": 99.335031,
-        "line_percent": 96.060606
+        "byte_percent": 99.383135,
+        "line_percent": 96.363636
       },
       "status": "failed",
       "stored_log_bytes": 35340,
       "summary": {
-        "bytes": 235,
-        "lines": 13
+        "bytes": 218,
+        "lines": 12
       },
       "tokensave_exit_code": 7
     },
@@ -1424,10 +1476,10 @@
             "passed": true
           },
           {
-            "actual": 269,
+            "actual": 240,
             "expected": "<= 240",
             "name": "maximum summary characters respected",
-            "passed": false
+            "passed": true
           },
           {
             "actual": "present",
@@ -1449,8 +1501,8 @@
           }
         ],
         "exit_code_preserved": true,
-        "expected_diagnosis_retained": false,
-        "passed": false,
+        "expected_diagnosis_retained": true,
+        "passed": true,
         "redaction_passed": null
       },
       "expected_exit_code": 7,
@@ -1466,13 +1518,13 @@
       },
       "raw_exit_code": 7,
       "reduction": {
-        "byte_percent": 99.238823,
+        "byte_percent": 99.320883,
         "line_percent": 95.757576
       },
       "status": "failed",
       "stored_log_bytes": 35340,
       "summary": {
-        "bytes": 269,
+        "bytes": 240,
         "lines": 14
       },
       "tokensave_exit_code": 7

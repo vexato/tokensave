@@ -438,7 +438,6 @@ Results depend on the command, parser, configuration, operating system, filesyst
 
 Line and byte reductions should not be interpreted as exact token reductions. See the full report for measured results and limitations.
 
-
 ## Current limitations
 
 * TokenSave is currently local-only.

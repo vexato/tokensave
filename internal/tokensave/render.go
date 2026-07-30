@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 func Render(s Summary, m Metadata, limits Limits) string {
@@ -98,15 +99,51 @@ func duration(ms int64) string {
 	}
 	return (time.Duration(ms) * time.Millisecond).Round(100 * time.Millisecond).String()
 }
+
+const truncationMarker = "[terminal output truncated]"
+
 func clip(s string, l Limits) string {
-	lines := strings.Split(s, "\n")
-	if len(lines) > l.MaxLines {
-		lines = append(lines[:l.MaxLines], "[terminal output truncated]")
+	s = clipLines(s, l.MaxLines)
+	s = clipCharacters(s, l.MaxChars)
+	return clipLines(s, l.MaxLines)
+}
+
+func clipLines(s string, maxLines int) string {
+	if maxLines <= 0 {
+		return ""
 	}
-	s = strings.Join(lines, "\n")
-	if len(s) > l.MaxChars {
-		return s[:l.MaxChars] + "\n[terminal output truncated]\n"
+	trimmed := strings.TrimSuffix(s, "\n")
+	if trimmed == "" {
+		return s
 	}
-	return s
+	lines := strings.Split(trimmed, "\n")
+	if len(lines) <= maxLines {
+		return s
+	}
+	if maxLines == 1 {
+		return truncationMarker + "\n"
+	}
+	return strings.Join(lines[:maxLines-1], "\n") + "\n" + truncationMarker + "\n"
+}
+
+func clipCharacters(s string, maxChars int) string {
+	if maxChars <= 0 {
+		return ""
+	}
+	if utf8.RuneCountInString(s) <= maxChars {
+		return s
+	}
+	marker := []rune(truncationMarker)
+	if maxChars <= len(marker) {
+		return string(marker[:maxChars])
+	}
+	suffix := []rune("\n" + truncationMarker + "\n")
+	prefixLength := maxChars - len(suffix)
+	if prefixLength <= 0 {
+		return truncationMarker + "\n"
+	}
+	runes := []rune(s)
+	prefix := strings.TrimRight(string(runes[:prefixLength]), "\n")
+	return prefix + string(suffix)
 }
 func SummaryJSON(s Summary) string { b, _ := json.Marshal(s); return string(bytes.TrimSpace(b)) }

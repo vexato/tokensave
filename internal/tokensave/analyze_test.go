@@ -1,6 +1,20 @@
 package tokensave
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+)
+
+func fixtureLines(t *testing.T, name string) []string {
+	t.Helper()
+	data, err := os.ReadFile(filepath.Join("..", "..", "fixtures", name))
+	if err != nil {
+		t.Fatal(err)
+	}
+	return strings.Split(strings.TrimSuffix(string(data), "\n"), "\n")
+}
 
 func TestGitStatusParser(t *testing.T) {
 	a, _, paths, _ := gitStatusParser{}.Parse([]string{"# branch.head feature/payment", "# branch.ab +2 -0", "1 M. N... 100644 100644 100644 x x src/PaymentService.php", "? tests/NewTest.php"})
@@ -23,8 +37,33 @@ func TestGenericRedactsSecrets(t *testing.T) {
 	}
 }
 func TestPHPUnitFailures(t *testing.T) {
-	a, f, _, _ := phpunitParser{}.Parse([]string{"PHPUnit 10", "Tests: 4, Assertions: 8, Failures: 2, Errors: 0", "1) UserTest::testCreate", "Expected 201", "tests/UserTest.php:84"})
-	if a["tests"] != 4 || len(f) != 1 || f[0].Name != "UserTest::testCreate" {
+	a, f, _, _ := phpunitParser{}.Parse(fixtureLines(t, "phpunit-failures.txt"))
+	if a["tests"] != 4 || a["assertions"] != 8 || a["failed"] != 2 || a["errors"] != 0 || len(f) != 1 || f[0].Name != "UserServiceTest::testCreatesUser" {
 		t.Fatalf("unexpected: %#v %#v", a, f)
+	}
+}
+
+func TestPestFailures(t *testing.T) {
+	a, f, _, _ := pestParser{}.Parse(fixtureLines(t, "pest.txt"))
+	if a["tests"] != 3 || a["assertions"] != 5 || a["failed"] != 1 || len(f) != 1 || f[0].Name != `Tests\\Feature\\InvoiceTest` {
+		t.Fatalf("unexpected: %#v %#v", a, f)
+	}
+}
+
+func TestNodeDiagnostics(t *testing.T) {
+	_, f, _, last := nodeParser{}.Parse(fixtureLines(t, "npm-failure.txt"))
+	if len(f) != 2 {
+		t.Fatalf("unexpected failures: %#v", f)
+	}
+	combined := strings.Join(append(last, f[0].Message), "\n")
+	if !strings.Contains(combined, "ERESOLVE") || !strings.Contains(combined, "unable to resolve dependency tree") {
+		t.Fatalf("unexpected: %#v %#v", f, last)
+	}
+}
+
+func TestComposerDiagnostics(t *testing.T) {
+	_, f, _, _ := composerParser{}.Parse(fixtureLines(t, "composer-failure.txt"))
+	if len(f) != 1 || f[0].Name != "Problem 1" || !strings.Contains(f[0].Message, "could not be resolved") {
+		t.Fatalf("unexpected: %#v", f)
 	}
 }

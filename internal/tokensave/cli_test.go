@@ -7,6 +7,7 @@ import (
 	"runtime"
 	"strings"
 	"testing"
+	"unicode/utf8"
 )
 
 func testCommand(ok bool) []string {
@@ -78,10 +79,17 @@ func TestShowListCleanAndLimits(t *testing.T) {
 		t.Fatal("run remains")
 	}
 }
-func TestClip(t *testing.T) {
-	s := clip("a\nb\nc\n", Limits{2, 3, 1})
-	if len(strings.Split(s, "\n")) < 2 || len(s) < 3 {
-		t.Fatal(s)
+func TestClipRespectsLineLimitIncludingMarker(t *testing.T) {
+	s := clip("a\nb\nc\nd\n", Limits{MaxLines: 2, MaxChars: 100, MaxFailures: 1})
+	if lines := strings.Count(s, "\n"); lines > 2 || !strings.Contains(s, truncationMarker) {
+		t.Fatalf("lines=%d output=%q", lines, s)
+	}
+}
+
+func TestClipRespectsCharacterLimitIncludingMarker(t *testing.T) {
+	s := clip(strings.Repeat("é", 100), Limits{MaxLines: 80, MaxChars: 40, MaxFailures: 1})
+	if chars := utf8.RuneCountInString(s); chars > 40 || !strings.Contains(s, truncationMarker) || !utf8.ValidString(s) {
+		t.Fatalf("chars=%d output=%q", chars, s)
 	}
 }
 
