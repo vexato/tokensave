@@ -5,27 +5,61 @@
 [![License](https://img.shields.io/github/license/vexato/tokensave)](LICENSE)
 [![Go version](https://img.shields.io/badge/Go-1.22-00ADD8?logo=go)](go.mod)
 
-> **Keep terminal noise out of your coding agent's context.**
+> **Compact command output for coding agents — without losing the full log.**
 
-TokenSave is a local Go CLI that turns verbose command output into compact, actionable summaries for developers and coding agents.
+TokenSave is a local-first Go CLI that turns verbose terminal output into compact, actionable summaries for developers, scripts, CI workflows, and coding agents.
 
-It runs the original command, stores its complete `stdout` and `stderr` locally, redacts common secrets from the displayed summary, and preserves the command's original exit code.
+It runs the original command, stores complete `stdout` and `stderr` locally, redacts common secrets from the displayed summary, and returns the command's original exit code.
 
-* 100% local
-* Zero telemetry
-* No remote API
-* Complete logs retained
-* Secrets redacted from summaries
-* Original exit codes preserved
-* Built for developers and coding agents
+<p align="center">
+  <img
+    src="docs/assets/demo.gif"
+    alt="TokenSave turning noisy command output into a compact, actionable summary"
+    width="900"
+  >
+</p>
+
+```sh
+tokensave npm test
+```
+
+```text
+Status: failed
+Parser: npm
+Duration: 18.4s
+
+2 failures detected
+
+1. UserTest::testCreate
+   Expected status 201, received 500
+
+2. UserTest::testDelete
+   Expected record to be deleted
+
+Run ID: 20260727-153045-a81f
+Inspect: tokensave show 20260727-153045-a81f --failure 1
+```
+
+**Local by default. Reversible by design. Built for noisy commands.**
+
+* Complete logs stay on your machine
+* No telemetry, account, or remote API
+* Secrets are redacted from displayed summaries
+* Original exit codes are preserved
+* Previous runs can be inspected progressively
+* Stable JSON output is available for automation
+
+[Installation](#installation) · [Quick start](#quick-start) · [How it works](#how-it-works) · [Supported parsers](#supported-parsers) · [Benchmarks](#benchmarks) · [Contributing](#contributing)
 
 ## Why TokenSave?
 
-Test suites, package managers, build tools, and Git commands can produce thousands of lines of output.
+Test suites, package managers, build tools, and Git commands can produce hundreds or thousands of lines of output.
 
-For a developer, that makes failures harder to find. For a coding agent, it wastes context on repetitive terminal noise.
+For developers, that makes the useful failure harder to find.
 
-Instead of immediately reading the complete output, TokenSave provides a progressive inspection workflow:
+For coding agents, it fills the context window with repeated logs instead of the information needed to solve the problem.
+
+TokenSave provides a progressive inspection workflow:
 
 ```text
 Compact summary
@@ -37,24 +71,11 @@ Relevant line range
 Complete log, only when necessary
 ```
 
-Example:
-
-```sh
-tokensave npm test
-```
-
-TokenSave displays a concise summary and stores the complete output locally.
-
-You can then inspect only what matters:
-
-```sh
-tokensave show <run-id> --failure 1
-tokensave show <run-id> --tail 50
-tokensave show <run-id> --lines 40:80
-tokensave show <run-id> --full
-```
+You start with the signal and keep access to the evidence.
 
 ## Installation
+
+Pre-built binaries are available for Linux, macOS, and Windows. Go is not required.
 
 ### Linux and macOS
 
@@ -70,14 +91,28 @@ irm https://raw.githubusercontent.com/vexato/tokensave/main/scripts/install.ps1 
 
 The installers:
 
-* download the appropriate pre-built GitHub Release asset;
+* download the correct pre-built GitHub Release asset;
 * verify its SHA-256 checksum against the release `checksums.txt`;
 * install the TokenSave binary;
 * install the bundled global Codex Skill by default.
 
-Go is not required.
+### Install only the binary
 
-### Default Codex Skill locations
+Linux and macOS:
+
+```sh
+TOKENSAVE_INSTALL_SKILL=0 sh install.sh
+```
+
+PowerShell:
+
+```powershell
+.\install.ps1 -SkipSkill
+```
+
+`-SkipCodexSkill` remains available as a PowerShell compatibility alias.
+
+### Codex Skill locations
 
 ```text
 Linux and macOS: $HOME/.agents/skills/tokensave
@@ -86,27 +121,13 @@ Windows:          %USERPROFILE%\.agents\skills\tokensave
 
 Set `TOKENSAVE_SKILL_DIR` to choose another global Skill directory.
 
-Install only the binary on Linux or macOS:
-
-```sh
-TOKENSAVE_INSTALL_SKILL=0 sh install.sh
-```
-
-Install only the binary with PowerShell:
-
-```powershell
-.\install.ps1 -SkipSkill
-```
-
-`-SkipCodexSkill` remains available as a PowerShell compatibility alias.
-
-The installers detect a legacy installation under:
+The installers detect legacy installations under:
 
 ```text
 ~/.codex/skills/tokensave
 ```
 
-They never delete it automatically. After verifying that the new Skill works, remove or migrate the legacy directory manually to avoid duplicate Skill entries.
+They never delete them automatically. After confirming that the new Skill works, remove or migrate the legacy directory manually to avoid duplicate entries.
 
 The PowerShell installer also adds the TokenSave binary directory to the user `PATH`.
 
@@ -132,7 +153,7 @@ tokensave composer install
 tokensave vendor/bin/phpunit
 ```
 
-The optional `run` command is also supported:
+The optional `run` subcommand is also supported:
 
 ```sh
 tokensave run vendor/bin/phpunit
@@ -150,7 +171,7 @@ Run a shell expression:
 tokensave --shell "php artisan test && npm test"
 ```
 
-Commands run directly without a shell by default, so regular arguments, including arguments containing spaces, remain safe.
+Commands run directly without a shell by default. Regular arguments, including arguments containing spaces, remain safe.
 
 Use `--shell` only when shell features such as command chaining, pipes, redirects, or variable expansion are intentionally required.
 
@@ -160,21 +181,38 @@ Use `--` before wrapped arguments that share a name with a TokenSave option:
 tokensave tool -- --json
 ```
 
-## Inspect previous runs
+## Inspect only what matters
 
-List stored runs:
+Every wrapped command receives a run ID.
+
+List previous runs:
 
 ```sh
 tokensave list
 tokensave list --failed
 ```
 
-Inspect a specific run:
+Inspect one detected failure:
 
 ```sh
 tokensave show 20260727-153045-a81f --failure 1
+```
+
+Inspect the end of a log:
+
+```sh
 tokensave show 20260727-153045-a81f --tail 50
+```
+
+Inspect a relevant line range:
+
+```sh
 tokensave show 20260727-153045-a81f --lines 40:80
+```
+
+Print the complete stored log:
+
+```sh
 tokensave show 20260727-153045-a81f --full
 ```
 
@@ -184,13 +222,13 @@ Delete old runs:
 tokensave clean --older-than 7d
 ```
 
-`show --full` prints a complete stored log. Use it carefully because complete logs are intentionally retained without redaction.
+> `show --full` prints the complete stored log. Complete logs are intentionally retained without redaction and may contain sensitive data.
 
 ## How it works
 
 For each wrapped command, TokenSave:
 
-1. Executes the command.
+1. Executes the original command.
 2. Captures `stdout` and `stderr`.
 3. Stores both streams and a combined log.
 4. Detects an appropriate parser when possible.
@@ -199,32 +237,23 @@ For each wrapped command, TokenSave:
 7. Writes text, JSON, and metadata files.
 8. Returns the child process's original exit code.
 
-TokenSave does not hide command failures and can therefore be used in scripts, CI workflows, and agent automation.
+TokenSave does not hide failures. It can therefore be used in local scripts, CI workflows, and coding-agent automation.
 
-## Storage
+## Designed for coding agents
 
-Set `TOKENSAVE_HOME` to choose a storage directory.
+TokenSave helps coding agents avoid loading an entire terminal transcript before understanding what failed.
 
-Otherwise, TokenSave uses the native state directory:
-
-* Linux: `$XDG_STATE_HOME/tokensave` or `~/.local/state/tokensave`
-* macOS: `~/Library/Application Support/tokensave`
-* Windows: `%LOCALAPPDATA%\tokensave`
-
-When the system state directory cannot be written, TokenSave falls back to an existing `.tokensave/` project directory or creates one when necessary.
-
-Each run contains:
+A typical workflow is:
 
 ```text
-metadata.json
-stdout.log
-stderr.log
-combined.log
-summary.txt
-summary.json
+1. Run the command through TokenSave
+2. Read the compact summary
+3. Inspect one failure
+4. Request a relevant line range
+5. Read the complete log only as a last resort
 ```
 
-The `.tokensave/` project directory is Git-ignored by default.
+This makes TokenSave useful for workflows involving tests, dependency installation, builds, Git operations, and other commands with noisy output.
 
 ## Output limits
 
@@ -286,6 +315,35 @@ tokensave npm test --json
 
 TokenSave still returns the wrapped command's original exit code when JSON output is enabled.
 
+## Supported parsers
+
+TokenSave currently includes parsers for:
+
+* Generic command output
+* Git status
+* Git diff
+* PHPUnit
+* Pest
+* Composer
+* npm
+* pnpm
+* yarn
+
+When no dedicated parser matches, TokenSave falls back to the generic parser.
+
+The parser registry uses a small `Detect`/`Parse` interface. New tools can be supported through focused fixtures and tests without changing the command runner.
+
+Potential future parsers include:
+
+* PHPStan
+* ESLint
+* TypeScript
+* Jest
+* Vitest
+* Playwright
+
+Parser contributions and real-world sanitized fixtures are welcome.
+
 ## Configuration
 
 TokenSave reads optional configuration from:
@@ -314,32 +372,30 @@ commands:
     parser: phpunit
 ```
 
-## Built-in parsers
+## Storage
 
-TokenSave includes parsers for:
+Set `TOKENSAVE_HOME` to choose a storage directory.
 
-* Generic command output
-* Git status
-* Git diff
-* PHPUnit
-* Pest
-* Composer
-* npm
-* pnpm
-* yarn
+Otherwise, TokenSave uses the native state directory:
 
-The parser registry uses a small `Detect`/`Parse` interface, allowing new tools to be supported through focused fixtures and tests without changing the command runner.
+* Linux: `$XDG_STATE_HOME/tokensave` or `~/.local/state/tokensave`
+* macOS: `~/Library/Application Support/tokensave`
+* Windows: `%LOCALAPPDATA%\tokensave`
 
-Potential future parsers include:
+When the system state directory cannot be written, TokenSave falls back to an existing `.tokensave/` project directory or creates one when necessary.
 
-* PHPStan
-* ESLint
-* TypeScript
-* Jest
-* Vitest
-* Playwright
+Each run contains:
 
-Contributions are welcome.
+```text
+metadata.json
+stdout.log
+stderr.log
+combined.log
+summary.txt
+summary.json
+```
+
+The `.tokensave/` project directory is Git-ignored by default.
 
 ## Privacy and redaction
 
@@ -414,7 +470,7 @@ Run the deterministic, offline correctness and performance benchmark with:
 make benchmark
 ```
 
-To write the Markdown report directly to a specific location:
+Write the Markdown report to a specific location:
 
 ```sh
 scripts/benchmark.sh --output docs/benchmarks.md
@@ -434,7 +490,7 @@ It checks:
 
 The benchmark uses deterministic generated output, repository fixtures, and a temporary Git repository.
 
-Results depend on the command, parser, configuration, operating system, filesystem, and TokenSave version. They do not represent every command or every coding-agent workload.
+Results depend on the command, parser, configuration, operating system, filesystem, and TokenSave version. They do not represent every command or coding-agent workload.
 
 Line and byte reductions should not be interpreted as exact token reductions. See the full report for measured results and limitations.
 
@@ -453,7 +509,37 @@ See [docs/ROADMAP.md](docs/ROADMAP.md) for planned improvements and proposed int
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development instructions and contribution guidelines.
 
-Bug reports, parser contributions, documentation improvements, installer testing, and platform feedback are welcome.
+### Regenerating the demo
+
+The terminal demo requires Go 1.22 or later, [VHS](https://github.com/charmbracelet/vhs), `ttyd`, and `ffmpeg`. Install VHS and its runtime dependencies with Homebrew:
+
+```sh
+brew install vhs
+```
+
+Alternatively, install VHS with Go after installing `ttyd` and `ffmpeg` with your system package manager:
+
+```sh
+go install github.com/charmbracelet/vhs@latest
+```
+
+From the repository root, regenerate `docs/assets/demo.gif` with:
+
+```sh
+make demo
+```
+
+The target builds `bin/tokensave`, checks the required tools, and runs the deterministic, offline tape in `docs/demo.tape`.
+
+Useful contributions include:
+
+* new parsers;
+* sanitized command-output fixtures;
+* documentation improvements;
+* installer testing;
+* Windows, macOS, and Linux feedback;
+* benchmark scenarios;
+* coding-agent integrations.
 
 When opening an issue or pull request:
 
@@ -465,10 +551,15 @@ When opening an issue or pull request:
 
 Security vulnerabilities must be reported through the process described in [SECURITY.md](SECURITY.md), not through a public issue.
 
+## Support the project
+
+If TokenSave helps you keep terminal noise out of your workflow:
+
+* star the repository;
+* share it with developers using coding agents;
+* open an issue for the noisiest command in your stack;
+* contribute a parser or sanitized fixture.
+
 ## License
 
 TokenSave is released under the [MIT License](LICENSE).
-
----
-
-If TokenSave helps keep your terminal output manageable, consider starring the repository and sharing which command produces the noisiest output in your workflow.
